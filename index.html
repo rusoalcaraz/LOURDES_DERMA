@@ -182,7 +182,7 @@
               href="tel:+525529178873"
               class="text-sm hover:text-brand-700 phone-link"
               ><i
-                class="fa-solid fa-phone-volume text-lg phone-icon"
+                class="fa-brands fa-whatsapp text-lg phone-icon"
               ></i>
               55 29 17 88 73</a
             >
@@ -192,7 +192,7 @@
               rel="noopener"
               class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft"
             >
-              Agendar cita
+              <i class="fa-regular fa-calendar-days"></i>Agendar cita
             </a>
             <div class="flex items-center gap-3 ml-1">
               <a
@@ -523,9 +523,9 @@
                     Tratamientos con Láser y CO2
                   </h3>
                   <p class="mt-3 text-brand-900/80">
-                    Tecnología avanzada para rejuvenecimiento, cicatrices de acné, 
-                    manchas, arrugas y textura de la piel con resultados precisos 
-                    y seguros.
+                    Tecnología avanzada para rejuvenecimiento,
+                    cicatrices de acné, manchas, arrugas y textura de
+                    la piel con resultados precisos y seguros.
                   </p>
                 </div>
               </div>
@@ -553,15 +553,9 @@
             <div
               class="ba-wrap rounded-2xl shadow-soft border border-brand-100"
             >
-              <img
-                src="https://placehold.co/800x600/jpg?text=DESPUES"
-                alt="Después"
-              />
+              <img src="assets/img/SANADO.png" alt="Después" />
               <div class="ba-top" id="ba1-top">
-                <img
-                  src="https://placehold.co/800x600/jpg?text=ANTES"
-                  alt="Antes"
-                />
+                <img src="assets/img/CALVO.png" alt="Antes" />
               </div>
               <div class="ba-handle" id="ba1-handle"></div>
               <input
@@ -673,22 +667,41 @@
       <!-- Ubicación + widget Doctoralia -->
       <section id="ubicacion" class="py-16 sm:py-24 bg-brand-100/40">
         <div
-          class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-start"
+          class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-stretch"
         >
-          <div>
-            <h2 class="text-3xl font-semibold">Ubicación</h2>
-            <p class="mt-3 text-brand-900/80">
+          <!-- Columna 1: Ubicación y Mapa -->
+          <div
+            class="bg-white rounded-2xl p-6 lg:p-8 shadow-soft border border-brand-100"
+          >
+            <h2
+              class="text-3xl font-semibold text-brand-900 leading-tight"
+            >
+              Ubicación
+            </h2>
+            <p
+              class="mt-3 text-brand-900/80 text-base leading-relaxed"
+            >
               LumeKClinik - Clínica de Dermatología y Medicina
               Estética
             </p>
-            <ul class="mt-4 space-y-2 text-brand-900/80">
-              <li>📍 Estacionamiento disponible en el edificio</li>
-              <li>🚇 Fácil acceso en transporte público</li>
+            <ul
+              class="mt-4 space-y-2 text-brand-900/80 text-base leading-relaxed"
+            >
               <li>
-                ♿ Accesibilidad para personas con movilidad reducida
+                <i class="fa-solid fa-square-parking"></i>
+                Estacionamiento disponible en el edificio
               </li>
               <li>
-                🕘 Horarios: Lun-Vie 9am-7pm, Jue 9am-9pm, Sáb 9am-1pm
+                <i class="fa-solid fa-bus-simple"></i> Fácil acceso en
+                transporte público
+              </li>
+              <li>
+                <i class="fa-solid fa-wheelchair"></i> Accesibilidad
+                para personas con movilidad reducida
+              </li>
+              <li>
+                <i class="fa-regular fa-clock"></i> Horarios: Lun-Vie
+                9am-7pm, Jue 9am-9pm, Sáb 9am-1pm
               </li>
             </ul>
             <div class="mt-6">
@@ -696,7 +709,7 @@
                 href="https://maps.app.goo.gl/UV2UMg8J46puS6t58"
                 target="_blank"
                 rel="noopener"
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-brand-700/30 hover:bg-brand-700/5"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-brand-700/30 hover:bg-brand-700/5 text-base font-medium text-brand-900"
                 >Abrir en Google Maps</a
               >
             </div>
@@ -721,16 +734,26 @@
               </div>
             </div>
           </div>
-          <div>
-            <h3 class="text-xl font-semibold">Agenda tu cita</h3>
-            <p class="text-brand-900/80">
+
+          <!-- Columna 2: Agenda tu cita -->
+          <div
+            class="bg-white rounded-2xl p-6 lg:p-8 shadow-soft border border-brand-100"
+          >
+            <h3
+              class="text-3xl font-semibold text-brand-900 leading-tight"
+            >
+              Agenda tu cita
+            </h3>
+            <p
+              class="mt-3 text-brand-900/80 text-base leading-relaxed"
+            >
               Pega aquí el HTML del widget de Doctoralia:
             </p>
             <div
-              class="mt-4 rounded-2xl border border-dashed border-brand-700/30 p-6 bg-white"
+              class="mt-4 rounded-2xl border border-dashed border-brand-700/30 p-6 bg-brand-100/20"
             >
               <!-- Pega el script/iframe de Doctoralia aquí -->
-              <p class="text-sm text-brand-900/60">
+              <p class="text-sm text-brand-900/60 leading-relaxed">
                 &lt;!-- Doctoralia widget --&gt;
               </p>
             </div>

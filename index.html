@@ -7,17 +7,17 @@
       content="width=device-width, initial-scale=1"
     />
     <title>
-      Dra. [Nombre Apellido] — Dermatología Clínica y Estética
+      Dra. Lourdes Estrada Alpízar — Dermatología Clínica y Estética
     </title>
 
     <!-- SEO básico -->
     <meta
       name="description"
-      content="Dermatóloga certificada en [Ciudad]. Tratamientos clínicos y estéticos: acné, manchas, melasma, alopecia, rejuvenecimiento y más. Agenda tu cita en Doctoralia."
+      content="Dermatóloga certificada en Ciudad de México. Tratamientos clínicos y estéticos: acné, manchas, melasma, alopecia, rejuvenecimiento y más. Agenda tu cita en Doctoralia."
     />
     <meta
       name="keywords"
-      content="dermatóloga, dermatología, acné, manchas, melasma, alopecia, botox, rellenos, láser, peelings, [Ciudad]"
+      content="dermatóloga, dermatología, acné, manchas, melasma, alopecia, botox, rellenos, láser, peelings, Ciudad de México, toxina botulínica"
     />
     <link rel="canonical" href="https://www.tu-dominio.com/" />
     <meta
@@ -29,11 +29,11 @@
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Dra. [Nombre Apellido] — Dermatología Clínica y Estética"
+      content="Dra. Lourdes Estrada Alpízar — Dermatología Clínica y Estética"
     />
     <meta
       property="og:description"
-      content="Atención dermatológica de confianza en [Ciudad]. Agenda tu cita en Doctoralia."
+      content="Atención dermatológica de confianza en Ciudad de México. Agenda tu cita en Doctoralia."
     />
     <meta property="og:url" content="https://www.tu-dominio.com/" />
     <meta
@@ -82,7 +82,7 @@
       };
     </script>
 
-    <!-- Fuente (opcional) -->
+    <!-- Fuentes  -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       rel="preconnect"
@@ -187,6 +187,62 @@
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
         cursor: ew-resize;
       }
+      /* Carrusel Antes/Después */
+      .ba-carousel {
+        overflow: hidden;
+        position: relative;
+      }
+      .ba-track {
+        display: flex;
+        gap: 2rem;
+        will-change: transform;
+      }
+      .ba-slide {
+        flex: 0 0 80%;
+      } /* móvil: 1 por vista */
+      @media (min-width: 640px) {
+        .ba-slide {
+          flex: 0 0 calc(50% - 1rem);
+        } /* sm+: 2 por vista */
+      }
+
+      /* Auto-scroll (pausable) */
+      @keyframes ba-scroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        } /* se recorre la mitad (clonamos para loop) */
+      }
+      .ba-anim {
+        animation: ba-scroll 28s linear infinite;
+      }
+      .ba-carousel:hover .ba-anim,
+      .ba-carousel:focus-within .ba-anim,
+      .ba-carousel.ba-paused .ba-anim {
+        animation-play-state: paused;
+      }
+
+      /* Badge de instrucción más visible */
+      .ba-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 9999px;
+        background: #6f6fbb;
+        color: white;
+        font-size: 0.875rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Respeta accesibilidad: si el usuario prefiere menos animación */
+      @media (prefers-reduced-motion: reduce) {
+        .ba-anim {
+          animation: none !important;
+        }
+      }
     </style>
 
     <!-- Schema.org JSON-LD (ajusta tus datos reales) -->
@@ -194,15 +250,15 @@
       {
         "@context": "https://schema.org",
         "@type": "Physician",
-        "name": "Dra. [Nombre Apellido]",
-        "description": "Dermatóloga certificada. Dermatología clínica y estética.",
-        "telephone": "+52 55 0000 0000",
+        "name": "Dra. Lourdes Estrada Alpízar",
+        "description": "Dermatóloga certificada por el Consejo Mexicano de Dermatología. Dermatología clínica y estética.",
+        "telephone": "+525529178873",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "[Calle y número]",
-          "addressLocality": "[Ciudad]",
-          "addressRegion": "[Estado]",
-          "postalCode": "[CP]",
+          "streetAddress": "Querétaro No. 27",
+          "addressLocality": "Ciudad de México",
+          "addressRegion": "Ciudad de México",
+          "postalCode": "06700",
           "addressCountry": "MX"
         },
         "image": "https://www.tu-dominio.com/og-image.jpg",
@@ -230,7 +286,9 @@
               <span class="text-lg font-bold text-brand-700">D</span>
             </div>
             <div class="hidden sm:block leading-tight">
-              <p class="font-semibold">Dra. [Nombre Apellido]</p>
+              <p class="font-semibold">
+                Dra. Lourdes Estrada Alpízar
+              </p>
               <p class="text-xs text-brand-700/80">
                 Dermatología Clínica y Estética
               </p>
@@ -262,10 +320,10 @@
             <a
               href="tel:+525500000000"
               class="text-sm hover:text-brand-700"
-              >📞 +52 55 0000 0000</a
+              >📞 55 29 17 88 73</a
             >
             <a
-              href="https://www.doctoralia.com.mx/tu-perfil"
+              href="https://www.doctoralia.com.mx/lourdes-estrada-alpizar/dermatologo/cuauhtemoc2#news-section"
               target="_blank"
               rel="noopener"
               class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft"
@@ -354,12 +412,12 @@
             >Ubicación</a
           >
           <a
-            href="tel:+525500000000"
+            href="tel:+525529178873"
             class="pt-2 border-t border-brand-100/60"
-            >📞 +52 55 0000 0000</a
+            >📞 55 29 17 88 73</a
           >
           <a
-            href="https://www.doctoralia.com.mx/tu-perfil"
+            href="https://www.doctoralia.com.mx/lourdes-estrada-alpizar/dermatologo/cuauhtemoc2#news-section"
             target="_blank"
             rel="noopener"
             class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft"
@@ -380,14 +438,15 @@
           <div>
             <span
               class="inline-block text-xs tracking-widest uppercase text-brand-800"
-              >Dermatóloga certificada</span
+              >Dermatóloga certificada por el Consejo Mexicano de
+              Dermatología</span
             >
             <h1
               class="mt-3 text-4xl sm:text-5xl font-bold leading-tight"
             >
               Tu dermatóloga de
-              <span class="text-brand-700">confianza</span> en
-              [Ciudad]
+              <span class="text-brand-700">confianza</span> en Ciudad
+              de México
             </h1>
             <p class="mt-4 text-lg text-brand-900/80 max-w-prose">
               Atención humana y basada en evidencia para el cuidado de
@@ -396,7 +455,7 @@
             </p>
             <div class="mt-6 flex flex-wrap gap-3">
               <a
-                href="https://www.doctoralia.com.mx/tu-perfil"
+                href="https://www.doctoralia.com.mx/lourdes-estrada-alpizar/dermatologo/cuauhtemoc2#news-section"
                 target="_blank"
                 rel="noopener"
                 class="px-5 py-3 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft"
@@ -416,7 +475,7 @@
             >
               <img
                 src="https://placehold.co/640x800/png?text=FOTO+PNG"
-                alt="Dra. [Nombre]"
+                alt="Dra. Lourdes Estrada Alpízar"
                 class="absolute inset-0 w-full h-full object-contain [animation:floatX_6s_ease-in-out_infinite]"
               />
               <!-- Fondo suave ovalado -->
@@ -438,11 +497,18 @@
               Formación y especialización
             </h2>
             <p class="mt-4 text-brand-900/80">
-              Soy la Dra. [Nombre], dermatóloga egresada de
-              [Universidad/Hospital], con alta especialidad en
-              [subespecialidad]. Cuento con certificación vigente por
-              el Consejo Mexicano de Dermatología y membresía en
-              [asociaciones].
+              ¡Hola! soy la Dra. Lourdes, dermatóloga egresada del
+              Hospital Civil de Culiacán, certificada por el consejo
+              Mexicano de Dermatología. Estudié la carrera de medicina
+              en la Escuela Superior de Medicina, realicé 2 años de
+              medicina interna en el Hospital General Dr José María
+              Rodríguez, hice la subespecialidad en dermatología en el
+              Hospital Civil de Culiacán y soy miembro del Colegio
+              Ibero-Latinoamericano de Dermatología. Me especializo en
+              el cuidado de la piel, pelo y uñas, tratando diversas
+              áreas como dermatología clínica, quirúrgica y estética.
+              Me gusta escuchar a mis pacientes, resolver sus dudas y
+              juntos decidir el mejor tratamiento y seguimiento.
             </p>
             <ul
               class="mt-4 list-disc pl-5 space-y-2 text-brand-900/80"
@@ -513,8 +579,8 @@
               Servicios dermatológicos
             </h2>
             <p class="mt-3 text-brand-900/80">
-              Da clic para ver cada servicio. Puedes ajustar los
-              textos y añadir más pestañas.
+              Atención dermatológica clínica y estética con enfoque
+              profesional y resultados comprobados.
             </p>
           </div>
 

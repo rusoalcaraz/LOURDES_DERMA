@@ -1,0 +1,206 @@
+/* Estilos personalizados para LumeKClinik */
+
+html {
+  scroll-padding-top: 84px;
+}
+
+/* Hero img flotando sutil */
+@keyframes floatX {
+  0% {
+    transform: translateX(-8px);
+  }
+  50% {
+    transform: translateX(8px);
+  }
+  100% {
+    transform: translateX(-8px);
+  }
+}
+
+/* Marquee */
+.marquee {
+  --gap: 3rem;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: var(--gap);
+}
+
+.marquee__track {
+  display: flex;
+  gap: var(--gap);
+  min-width: 100%;
+  animation: scroll 25s linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+/* Before/After slider */
+.ba-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.ba-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ba-top {
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+.ba-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: white;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+}
+
+input[type="range"].ba-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type="range"].ba-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #6f6fbb;
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  cursor: ew-resize;
+}
+
+input[type="range"].ba-range::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #6f6fbb;
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  cursor: ew-resize;
+}
+
+/* Carrusel Antes/Después */
+.ba-carousel {
+  overflow: hidden;
+  position: relative;
+}
+
+.ba-track {
+  display: flex;
+  gap: 2rem;
+  will-change: transform;
+}
+
+.ba-slide {
+  flex: 0 0 80%;
+} /* móvil: 1 por vista */
+
+@media (min-width: 640px) {
+  .ba-slide {
+    flex: 0 0 calc(50% - 1rem);
+  } /* sm+: 2 por vista */
+}
+
+/* Auto-scroll (pausable) */
+@keyframes ba-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  } /* se recorre la mitad (clonamos para loop) */
+}
+
+.ba-anim {
+  animation: ba-scroll 28s linear infinite;
+}
+
+.ba-carousel:hover .ba-anim,
+.ba-carousel:focus-within .ba-anim,
+.ba-carousel.ba-paused .ba-anim {
+  animation-play-state: paused;
+}
+
+/* Badge de instrucción más visible */
+.ba-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+  background: #6f6fbb;
+  color: white;
+  font-size: 0.875rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Animación del teléfono - efecto timbre */
+.phone-link {
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.phone-icon {
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+@keyframes phone-ring {
+  0% { transform: rotate(0deg) scale(1); }
+  10% { transform: rotate(-10deg) scale(1.1); }
+  20% { transform: rotate(10deg) scale(1.1); }
+  30% { transform: rotate(-8deg) scale(1.1); }
+  40% { transform: rotate(8deg) scale(1.1); }
+  50% { transform: rotate(-5deg) scale(1.1); }
+  60% { transform: rotate(5deg) scale(1.1); }
+  70% { transform: rotate(-3deg) scale(1.1); }
+  80% { transform: rotate(3deg) scale(1.1); }
+  90% { transform: rotate(-1deg) scale(1.1); }
+  100% { transform: rotate(0deg) scale(1.1); }
+}
+
+.phone-link:hover .phone-icon {
+  animation: phone-ring 0.8s ease-in-out;
+  transform: scale(1.1);
+}
+
+.phone-link:hover {
+  transform: scale(1.05);
+}
+
+/* Respeta accesibilidad: si el usuario prefiere menos animación */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track,
+  .ba-anim,
+  .phone-link:hover .phone-icon {
+    animation: none !important;
+  }
+}

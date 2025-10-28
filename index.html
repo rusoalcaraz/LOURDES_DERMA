@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>
+      Dra. [Nombre Apellido] — Dermatología Clínica y Estética
+    </title>
+
+    <!-- SEO básico -->
+    <meta
+      name="description"
+      content="Dermatóloga certificada en [Ciudad]. Tratamientos clínicos y estéticos: acné, manchas, melasma, alopecia, rejuvenecimiento y más. Agenda tu cita en Doctoralia."
+    />
+    <meta
+      name="keywords"
+      content="dermatóloga, dermatología, acné, manchas, melasma, alopecia, botox, rellenos, láser, peelings, [Ciudad]"
+    />
+    <link rel="canonical" href="https://www.tu-dominio.com/" />
+    <meta
+      name="robots"
+      content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+    />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Dra. [Nombre Apellido] — Dermatología Clínica y Estética"
+    />
+    <meta
+      property="og:description"
+      content="Atención dermatológica de confianza en [Ciudad]. Agenda tu cita en Doctoralia."
+    />
+    <meta property="og:url" content="https://www.tu-dominio.com/" />
+    <meta
+      property="og:image"
+      content="https://www.tu-dominio.com/og-image.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Config de Tailwind con tus colores de marca
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                900: "#3B3355",
+                700: "#6F6FBB",
+                100: "#ECE2D0",
+                300: "#EBB4A6",
+                800: "#692A00",
+              },
+            },
+            boxShadow: {
+              soft: "0 10px 30px rgba(0,0,0,0.08)",
+            },
+            fontFamily: {
+              sans: [
+                "Inter",
+                "system-ui",
+                "Segoe UI",
+                "Roboto",
+                "Helvetica",
+                "Arial",
+                "Noto Sans",
+                "sans-serif",
+              ],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Fuente (opcional) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      html {
+        scroll-padding-top: 84px;
+      }
+      /* Hero img flotando sutil */
+      @keyframes floatX {
+        0% {
+          transform: translateX(-8px);
+        }
+        50% {
+          transform: translateX(8px);
+        }
+        100% {
+          transform: translateX(-8px);
+        }
+      }
+      /* Marquee */
+      .marquee {
+        --gap: 3rem;
+        display: flex;
+        overflow: hidden;
+        user-select: none;
+        gap: var(--gap);
+      }
+      .marquee__track {
+        display: flex;
+        gap: var(--gap);
+        min-width: 100%;
+        animation: scroll 25s linear infinite;
+      }
+      .marquee:hover .marquee__track {
+        animation-play-state: paused;
+      }
+      @keyframes scroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(calc(-100% - var(--gap)));
+        }
+      }
+      /* Before/After slider */
+      .ba-wrap {
+        position: relative;
+        overflow: hidden;
+      }
+      .ba-wrap img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .ba-top {
+        position: absolute;
+        inset: 0;
+        width: 50%;
+        overflow: hidden;
+      }
+      .ba-handle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: calc(50% - 1px);
+        width: 2px;
+        background: white;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+      }
+      input[type="range"].ba-range {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        background: transparent;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+      input[type="range"].ba-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 999px;
+        background: #6f6fbb;
+        border: 2px solid white;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        cursor: ew-resize;
+      }
+      input[type="range"].ba-range::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 999px;
+        background: #6f6fbb;
+        border: 2px solid white;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        cursor: ew-resize;
+      }
+    </style>
+
+    <!-- Schema.org JSON-LD (ajusta tus datos reales) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Physician",
+        "name": "Dra. [Nombre Apellido]",
+        "description": "Dermatóloga certificada. Dermatología clínica y estética.",
+        "telephone": "+52 55 0000 0000",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "[Calle y número]",
+          "addressLocality": "[Ciudad]",
+          "addressRegion": "[Estado]",
+          "postalCode": "[CP]",
+          "addressCountry": "MX"
+        },
+        "image": "https://www.tu-dominio.com/og-image.jpg",
+        "url": "https://www.tu-dominio.com/",
+        "sameAs": [
+          "https://www.facebook.com/tu_pagina",
+          "https://www.instagram.com/tu_usuario",
+          "https://www.tiktok.com/@tu_usuario"
+        ]
+      }
+    </script>
+  </head>
+  <body class="font-sans text-brand-900 bg-white/95">
+    <!-- Navbar flotante -->
+    <header
+      class="fixed top-0 inset-x-0 z-50 backdrop-blur bg-white/80 border-b border-brand-100/60"
+    >
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="h-20 flex items-center justify-between gap-6">
+          <a href="#inicio" class="flex items-center gap-3 shrink-0">
+            <div
+              class="w-10 h-10 rounded-xl bg-brand-700/10 grid place-items-center"
+            >
+              <!-- Logo placeholder -->
+              <span class="text-lg font-bold text-brand-700">D</span>
+            </div>
+            <div class="hidden sm:block leading-tight">
+              <p class="font-semibold">Dra. [Nombre Apellido]</p>
+              <p class="text-xs text-brand-700/80">
+                Dermatología Clínica y Estética
+              </p>
+            </div>
+          </a>
+
+          <nav class="hidden md:flex items-center gap-6">
+            <a
+              href="#servicios"
+              class="hover:text-brand-700 transition"
+              >Servicios</a
+            >
+            <a
+              href="#antes-despues"
+              class="hover:text-brand-700 transition"
+              >Antes y Después</a
+            >
+            <a href="#reseñas" class="hover:text-brand-700 transition"
+              >Reseñas</a
+            >
+            <a
+              href="#ubicacion"
+              class="hover:text-brand-700 transition"
+              >Ubicación</a
+            >
+          </nav>
+
+          <div class="hidden sm:flex items-center gap-4">
+            <a
+              href="tel:+525500000000"
+              class="text-sm hover:text-brand-700"
+              >📞 +52 55 0000 0000</a
+            >
+            <a
+              href="https://www.doctoralia.com.mx/tu-perfil"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft"
+            >
+              Agendar cita
+            </a>
+            <div class="flex items-center gap-3 ml-1">
+              <a
+                href="https://www.instagram.com/tu_usuario"
+                aria-label="Instagram"
+                class="hover:opacity-80"
+                target="_blank"
+                rel="noopener"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  class="w-5 h-5 fill-current"
+                >
+                  <path
+                    d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm5 3a5 5 0 1 1-5 5a5 5 0 0 1 5-5m0 2a3 3 0 1 0 3 3a3 3 0 0 0-3-3m4.5-.75a.75.75 0 1 1-.75.75a.75.75 0 0 1 .75-.75"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://www.facebook.com/tu_pagina"
+                aria-label="Facebook"
+                class="hover:opacity-80"
+                target="_blank"
+                rel="noopener"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  class="w-5 h-5 fill-current"
+                >
+                  <path
+                    d="M13 3h4a1 1 0 0 1 1 1v3h-3a1 1 0 0 0-1 1v3h4l-1 4h-3v7h-4v-7H7v-4h3V8a4 4 0 0 1 4-4Z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://www.tiktok.com/@tu_usuario"
+                aria-label="TikTok"
+                class="hover:opacity-80"
+                target="_blank"
+                rel="noopener"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  class="w-5 h-5 fill-current"
+                >
+                  <path
+                    d="M16 3a6 6 0 0 0 4 4.5A7 7 0 0 0 23 8v4a10 10 0 1 1-10-10h3z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Mobile -->
+          <button
+            id="btnMenu"
+            class="md:hidden p-2 rounded-lg border border-brand-100"
+          >
+            ☰
+          </button>
+        </div>
+      </div>
+      <div
+        id="menuMobile"
+        class="md:hidden hidden border-t border-brand-100/60 bg-white/90"
+      >
+        <nav
+          class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 grid gap-3"
+        >
+          <a href="#servicios" class="hover:text-brand-700"
+            >Servicios</a
+          >
+          <a href="#antes-despues" class="hover:text-brand-700"
+            >Antes y Después</a
+          >
+          <a href="#reseñas" class="hover:text-brand-700">Reseñas</a>
+          <a href="#ubicacion" class="hover:text-brand-700"
+            >Ubicación</a
+          >
+          <a
+            href="tel:+525500000000"
+            class="pt-2 border-t border-brand-100/60"
+            >📞 +52 55 0000 0000</a
+          >
+          <a
+            href="https://www.doctoralia.com.mx/tu-perfil"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft"
+            >Agendar cita</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <!-- HERO -->
+      <section
+        class="relative pt-28 sm:pt-32 pb-16 sm:pb-24 bg-gradient-to-b from-brand-100/60 to-white"
+      >
+        <div
+          class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 items-center gap-12"
+        >
+          <div>
+            <span
+              class="inline-block text-xs tracking-widest uppercase text-brand-800"
+              >Dermatóloga certificada</span
+            >
+            <h1
+              class="mt-3 text-4xl sm:text-5xl font-bold leading-tight"
+            >
+              Tu dermatóloga de
+              <span class="text-brand-700">confianza</span> en
+              [Ciudad]
+            </h1>
+            <p class="mt-4 text-lg text-brand-900/80 max-w-prose">
+              Atención humana y basada en evidencia para el cuidado de
+              tu piel, cabello y uñas. Tratamientos clínicos y
+              estéticos con resultados naturales.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a
+                href="https://www.doctoralia.com.mx/tu-perfil"
+                target="_blank"
+                rel="noopener"
+                class="px-5 py-3 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft"
+                >Agendar en Doctoralia</a
+              >
+              <a
+                href="#servicios"
+                class="px-5 py-3 rounded-xl border border-brand-700/30 hover:bg-brand-700/5"
+                >Ver servicios</a
+              >
+            </div>
+          </div>
+          <div class="relative max-w-xl mx-auto lg:max-w-none">
+            <!-- Mockup foto PNG sin fondo -->
+            <div
+              class="relative aspect-[4/5] max-w-md lg:max-w-lg mx-auto"
+            >
+              <img
+                src="https://placehold.co/640x800/png?text=FOTO+PNG"
+                alt="Dra. [Nombre]"
+                class="absolute inset-0 w-full h-full object-contain [animation:floatX_6s_ease-in-out_infinite]"
+              />
+              <!-- Fondo suave ovalado -->
+              <div
+                class="absolute inset-x-6 bottom-0 h-24 rounded-full bg-brand-300/40 blur-2xl"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sobre mí / preparación -->
+      <section id="sobre-mi" class="py-16 sm:py-24">
+        <div
+          class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center"
+        >
+          <div class="order-2 lg:order-1">
+            <h2 class="text-3xl font-semibold">
+              Formación y especialización
+            </h2>
+            <p class="mt-4 text-brand-900/80">
+              Soy la Dra. [Nombre], dermatóloga egresada de
+              [Universidad/Hospital], con alta especialidad en
+              [subespecialidad]. Cuento con certificación vigente por
+              el Consejo Mexicano de Dermatología y membresía en
+              [asociaciones].
+            </p>
+            <ul
+              class="mt-4 list-disc pl-5 space-y-2 text-brand-900/80"
+            >
+              <li>
+                Dermatología clínica: acné, rosácea, dermatitis,
+                alopecia.
+              </li>
+              <li>
+                Dermatología estética: toxina botulínica, ácido
+                hialurónico, láser.
+              </li>
+              <li>
+                Enfoque integral, protocolos personalizados y
+                seguimiento.
+              </li>
+            </ul>
+          </div>
+          <div class="order-1 lg:order-2">
+            <img
+              src="https://placehold.co/640x480/jpg?text=Consultorio"
+              alt="Consultorio dermatológico"
+              class="w-full h-auto rounded-2xl shadow-soft"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Marquee separador -->
+      <div
+        class="marquee py-4 bg-brand-100/60 border-y border-brand-100"
+      >
+        <div class="marquee__track">
+          <p class="text-sm tracking-wider">
+            Citas por Doctoralia • Tratamientos basados en evidencia •
+            Resultados naturales • Atención humana
+          </p>
+          <p class="text-sm tracking-wider">
+            Citas por Doctoralia • Tratamientos basados en evidencia •
+            Resultados naturales • Atención humana
+          </p>
+          <p class="text-sm tracking-wider">
+            Citas por Doctoralia • Tratamientos basados en evidencia •
+            Resultados naturales • Atención humana
+          </p>
+        </div>
+        <div class="marquee__track" aria-hidden="true">
+          <p class="text-sm tracking-wider">
+            Citas por Doctoralia • Tratamientos basados en evidencia •
+            Resultados naturales • Atención humana
+          </p>
+          <p class="text-sm tracking-wider">
+            Citas por Doctoralia • Tratamientos basados en evidencia •
+            Resultados naturales • Atención humana
+          </p>
+          <p class="text-sm tracking-wider">
+            Citas por Doctoralia • Tratamientos basados en evidencia •
+            Resultados naturales • Atención humana
+          </p>
+        </div>
+      </div>
+
+      <!-- Servicios con pestañas -->
+      <section id="servicios" class="py-16 sm:py-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="max-w-2xl">
+            <h2 class="text-3xl font-semibold">
+              Servicios dermatológicos
+            </h2>
+            <p class="mt-3 text-brand-900/80">
+              Da clic para ver cada servicio. Puedes ajustar los
+              textos y añadir más pestañas.
+            </p>
+          </div>
+
+          <div class="mt-8 grid lg:grid-cols-12 gap-8">
+            <!-- Tabs (izquierda) -->
+            <div
+              class="lg:col-span-4 flex lg:flex-col gap-3 overflow-x-auto lg:overflow-visible pb-2"
+            >
+              <button
+                class="tab-btn px-4 py-3 rounded-xl border border-brand-700/30 data-[active=true]:bg-brand-700 data-[active=true]:text-white"
+                data-tab="acne"
+              >
+                Acné
+              </button>
+              <button
+                class="tab-btn px-4 py-3 rounded-xl border border-brand-700/30"
+                data-tab="manchas"
+              >
+                Manchas y melasma
+              </button>
+              <button
+                class="tab-btn px-4 py-3 rounded-xl border border-brand-700/30"
+                data-tab="alopecia"
+              >
+                Alopecia
+              </button>
+              <button
+                class="tab-btn px-4 py-3 rounded-xl border border-brand-700/30"
+                data-tab="botox"
+              >
+                Toxina botulínica
+              </button>
+              <button
+                class="tab-btn px-4 py-3 rounded-xl border border-brand-700/30"
+                data-tab="rellenos"
+              >
+                Rellenos (Ácido Hialurónico)
+              </button>
+            </div>
+
+            <!-- Paneles (derecha) -->
+            <div class="lg:col-span-8">
+              <div class="tab-panel" id="tab-acne">
+                <div
+                  class="rounded-2xl border border-brand-100 p-6 lg:p-8 shadow-soft"
+                >
+                  <h3 class="text-2xl font-semibold">
+                    Tratamiento de Acné
+                  </h3>
+                  <p class="mt-3 text-brand-900/80">
+                    Evaluación integral (gravedad, cicatrices,
+                    hábitos) y plan personalizado: retinoides,
+                    antibióticos tópicos/sistémicos, peelings, manejo
+                    de cicatrices.
+                  </p>
+                </div>
+              </div>
+              <div class="tab-panel hidden" id="tab-manchas">
+                <div
+                  class="rounded-2xl border border-brand-100 p-6 lg:p-8 shadow-soft"
+                >
+                  <h3 class="text-2xl font-semibold">
+                    Manchas y Melasma
+                  </h3>
+                  <p class="mt-3 text-brand-900/80">
+                    Protocolos combinados: despigmentantes,
+                    fotoprotección, peelings químicos y dispositivos
+                    según fototipo.
+                  </p>
+                </div>
+              </div>
+              <div class="tab-panel hidden" id="tab-alopecia">
+                <div
+                  class="rounded-2xl border border-brand-100 p-6 lg:p-8 shadow-soft"
+                >
+                  <h3 class="text-2xl font-semibold">Alopecia</h3>
+                  <p class="mt-3 text-brand-900/80">
+                    Diagnóstico diferencial (androgenética, efluvio,
+                    areata). Tratamientos médicos, mesoterapia, PRP.
+                  </p>
+                </div>
+              </div>
+              <div class="tab-panel hidden" id="tab-botox">
+                <div
+                  class="rounded-2xl border border-brand-100 p-6 lg:p-8 shadow-soft"
+                >
+                  <h3 class="text-2xl font-semibold">
+                    Toxina Botulínica
+                  </h3>
+                  <p class="mt-3 text-brand-900/80">
+                    Suaviza líneas de expresión con resultados
+                    naturales. Zonas: frente, entrecejo, patas de
+                    gallo, sonrisa gingival.
+                  </p>
+                </div>
+              </div>
+              <div class="tab-panel hidden" id="tab-rellenos">
+                <div
+                  class="rounded-2xl border border-brand-100 p-6 lg:p-8 shadow-soft"
+                >
+                  <h3 class="text-2xl font-semibold">
+                    Rellenos con Ácido Hialurónico
+                  </h3>
+                  <p class="mt-3 text-brand-900/80">
+                    Volumen y armonización facial (labios, ojeras,
+                    pómulo, mentón) con seguridad y técnica avanzada.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Antes y Después -->
+      <section
+        id="antes-despues"
+        class="py-16 sm:py-24 bg-brand-100/40"
+      >
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="max-w-2xl">
+            <h2 class="text-3xl font-semibold">Antes y Después</h2>
+            <p class="mt-3 text-brand-900/80">
+              Desliza para comparar. Sustituye las imágenes por tus
+              casos (con autorización del paciente).
+            </p>
+          </div>
+
+          <div class="mt-8 grid sm:grid-cols-2 gap-8">
+            <!-- Slider 1 -->
+            <div
+              class="ba-wrap rounded-2xl shadow-soft border border-brand-100"
+            >
+              <img
+                src="https://placehold.co/800x600/jpg?text=DESPUES"
+                alt="Después"
+              />
+              <div class="ba-top" id="ba1-top">
+                <img
+                  src="https://placehold.co/800x600/jpg?text=ANTES"
+                  alt="Antes"
+                />
+              </div>
+              <div class="ba-handle" id="ba1-handle"></div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                class="ba-range"
+                id="ba1-range"
+                aria-label="Comparador antes/después"
+              />
+            </div>
+            <!-- Slider 2 -->
+            <div
+              class="ba-wrap rounded-2xl shadow-soft border border-brand-100"
+            >
+              <img
+                src="https://placehold.co/800x600/jpg?text=DESPUES"
+                alt="Después"
+              />
+              <div class="ba-top" id="ba2-top">
+                <img
+                  src="https://placehold.co/800x600/jpg?text=ANTES"
+                  alt="Antes"
+                />
+              </div>
+              <div class="ba-handle" id="ba2-handle"></div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                class="ba-range"
+                id="ba2-range"
+                aria-label="Comparador antes/después"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reseñas / testimonios -->
+      <section id="reseñas" class="py-16 sm:py-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="max-w-2xl">
+            <h2 class="text-3xl font-semibold">
+              Lo que dicen los pacientes
+            </h2>
+            <p class="mt-3 text-brand-900/80">
+              Opiniones reales. Puedes integrar el widget de
+              Doctoralia o Google más adelante.
+            </p>
+          </div>
+
+          <div class="mt-8 grid md:grid-cols-3 gap-6">
+            <!-- Card -->
+            <article
+              class="rounded-2xl border border-brand-100 p-6 shadow-soft"
+            >
+              <div class="flex items-center gap-2">
+                <span class="font-semibold">María P.</span>
+                <span class="text-xs text-brand-900/60">• Acné</span>
+              </div>
+              <div class="mt-2 flex" aria-label="5 estrellas">
+                <span>★★★★★</span>
+              </div>
+              <p class="mt-3 text-brand-900/80">
+                La doctora es súper atenta y explica todo con
+                claridad. Mi piel mejoró muchísimo.
+              </p>
+            </article>
+            <article
+              class="rounded-2xl border border-brand-100 p-6 shadow-soft"
+            >
+              <div class="flex items-center gap-2">
+                <span class="font-semibold">Luis R.</span>
+                <span class="text-xs text-brand-900/60"
+                  >• Melasma</span
+                >
+              </div>
+              <div class="mt-2 flex" aria-label="5 estrellas">
+                <span>★★★★★</span>
+              </div>
+              <p class="mt-3 text-brand-900/80">
+                Resultados naturales y excelente seguimiento. Muy
+                recomendable.
+              </p>
+            </article>
+            <article
+              class="rounded-2xl border border-brand-100 p-6 shadow-soft"
+            >
+              <div class="flex items-center gap-2">
+                <span class="font-semibold">Andrea C.</span>
+                <span class="text-xs text-brand-900/60"
+                  >• Armonización</span
+                >
+              </div>
+              <div class="mt-2 flex" aria-label="5 estrellas">
+                <span>★★★★★</span>
+              </div>
+              <p class="mt-3 text-brand-900/80">
+                Me encantó el trato y el resultado. Volveré sin duda.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ubicación + widget Doctoralia -->
+      <section id="ubicacion" class="py-16 sm:py-24 bg-brand-100/40">
+        <div
+          class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-start"
+        >
+          <div>
+            <h2 class="text-3xl font-semibold">Ubicación</h2>
+            <p class="mt-3 text-brand-900/80">
+              [Nombre del consultorio / torre médica], [Calle y
+              número], [Colonia], [Ciudad, Estado], C.P. [CP]
+            </p>
+            <ul class="mt-4 space-y-2 text-brand-900/80">
+              <li>📍 Estacionamiento en el edificio</li>
+              <li>🚇 Cerca de [referencias de transporte]</li>
+              <li>
+                ♿ Accesibilidad para personas con movilidad reducida
+              </li>
+            </ul>
+            <div class="mt-6">
+              <a
+                href="https://maps.google.com/?q=Tu+Direccion"
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-brand-700/30 hover:bg-brand-700/5"
+                >Abrir en Google Maps</a
+              >
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold">Agenda tu cita</h3>
+            <p class="text-brand-900/80">
+              Pega aquí el HTML del widget de Doctoralia:
+            </p>
+            <div
+              class="mt-4 rounded-2xl border border-dashed border-brand-700/30 p-6 bg-white"
+            >
+              <!-- Pega el script/iframe de Doctoralia aquí -->
+              <p class="text-sm text-brand-900/60">
+                &lt;!-- Doctoralia widget --&gt;
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-100/60">
+      <div
+        class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 grid md:grid-cols-3 gap-8"
+      >
+        <div>
+          <h4 class="font-semibold">Ubicación</h4>
+          <p class="mt-2 text-brand-900/80">
+            [Nombre del consultorio]<br />[Calle y número]<br />[Colonia],
+            [Ciudad, Estado] C.P. [CP]
+          </p>
+        </div>
+        <div>
+          <h4 class="font-semibold">Horarios</h4>
+          <ul class="mt-2 text-brand-900/80 space-y-1">
+            <li>Lun–Vie: 10:00–14:00, 16:00–20:00</li>
+            <li>Sáb: 10:00–14:00</li>
+            <li>Dom: Cerrado</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold">Contacto</h4>
+          <ul class="mt-2 text-brand-900/80 space-y-1">
+            <li>
+              📞
+              <a class="hover:text-brand-700" href="tel:+525500000000"
+                >+52 55 0000 0000</a
+              >
+            </li>
+            <li>
+              ✉️
+              <a
+                class="hover:text-brand-700"
+                href="mailto:contacto@tu-dominio.com"
+                >contacto@tu-dominio.com</a
+              >
+            </li>
+            <li>
+              IG:
+              <a
+                class="hover:text-brand-700"
+                href="https://instagram.com/tu_usuario"
+                target="_blank"
+                rel="noopener"
+                >@tu_usuario</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="py-6 text-center text-sm text-brand-900/60">
+        © <span id="year"></span> Dra. [Nombre Apellido]. Todos los
+        derechos reservados.
+      </div>
+    </footer>
+
+    <!-- Botón flotante WhatsApp (inferior izquierdo) -->
+    <a
+      href="https://wa.me/525500000000?text=Hola%20Dra.,%20me%20gustaría%20agendar%20una%20cita"
+      target="_blank"
+      rel="noopener"
+      aria-label="WhatsApp"
+      class="fixed right-4 bottom-4 z-40 inline-flex items-center justify-center w-14 h-14 rounded-full bg-green-500 text-white shadow-soft hover:scale-105 transition"
+    >
+      <!-- ícono WhatsApp -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        class="w-7 h-7 fill-current"
+      >
+        <path
+          d="M20.52 3.48A11.94 11.94 0 0 0 12.05 0C5.57 0 .3 5.27.3 11.76c0 2.07.54 4.05 1.57 5.82L0 24l6.6-1.73a11.6 11.6 0 0 0 5.45 1.38h.01c6.48 0 11.75-5.27 11.75-11.76c0-3.15-1.23-6.11-3.29-8.41M12.06 21.3c-1.74 0-3.45-.47-4.94-1.36l-.35-.21l-3.92 1.03l1.05-3.82l-.23-.39a9.77 9.77 0 0 1-1.51-5.19c0-5.41 4.41-9.82 9.82-9.82c2.62 0 5.08 1.02 6.94 2.88a9.72 9.72 0 0 1 2.88 6.93c0 5.41-4.41 9.82-9.82 9.82m5.39-7.36c-.29-.14-1.7-.84-1.96-.94c-.26-.1-.45-.14-.64.14s-.74.94-.92 1.13c-.17.18-.34.2-.63.07a7.86 7.86 0 0 1-2.31-1.43a8.64 8.64 0 0 1-1.61-2c-.17-.3 0-.46.13-.6c.13-.13.3-.34.44-.51c.14-.17.19-.3.29-.5c.09-.2.05-.37-.02-.51c-.06-.14-.64-1.55-.86-2.12c-.23-.55-.46-.48-.64-.49l-.55-.01c-.2 0-.51.07-.78.37c-.26.3-1 1-1 2.44s1.02 2.83 1.16 3.03c.14.2 2 3.05 4.86 4.29c.68.29 1.21.47 1.62.6c.68.22 1.3.19 1.8.12c.55-.08 1.7-.7 1.94-1.38c.24-.68.24-1.26.17-1.38c-.07-.12-.26-.2-.55-.34"
+        />
+      </svg>
+    </a>
+
+    <!-- Scripts: tabs, BA slider, mobile menu, year -->
+    <script src="index.js"></script>
+  </body>
+</html>

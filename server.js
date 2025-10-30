@@ -142,10 +142,12 @@ httpServer.listen(PORT_HTTP, () => {
   );
 });
 
-// httpsServer.listen(PORT_HTTPS, () => {
-//   console.log(`🔒 Servidor HTTPS ejecutándose en: https://localhost:${PORT_HTTPS}`);
-//   console.log('✅ Usando certificados SSL válidos (mkcert)');
-// });
+httpsServer.listen(PORT_HTTPS, () => {
+  console.log(
+    `🔒 Servidor HTTPS ejecutándose en: https://localhost:${PORT_HTTPS}`
+  );
+  console.log("✅ Usando certificados SSL válidos (mkcert)");
+});
 
 console.log(
   "\n📋 Instrucciones para probar el widget de Doctoralia:"

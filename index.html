@@ -762,13 +762,174 @@
             >
               Pega aquí el HTML del widget de Doctoralia:
             </p>
-            <div
-              class="mt-4 rounded-2xl border border-dashed border-brand-700/30 p-6 bg-brand-100/20"
-            >
-              <!-- Pega el script/iframe de Doctoralia aquí -->
-              <p class="text-sm text-brand-900/60 leading-relaxed">
-                &lt;!-- Doctoralia widget --&gt;
-              </p>
+            <div id="doctoralia-widget-container">
+              <!-- Opción para mostrar widget personalizado -->
+              <div class="mb-4">
+                <button 
+                  id="toggle-custom-widget" 
+                  class="text-sm text-brand-600 hover:text-brand-700 underline"
+                  onclick="toggleCustomWidget()"
+                >
+                  🎨 Ver widget personalizado con tu branding
+                </button>
+              </div>
+
+              <!-- Widget personalizado (oculto por defecto) -->
+              <div id="custom-widget" class="hidden mb-6">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 max-w-md">
+                  <!-- Header con branding -->
+                  <div class="bg-gradient-to-r from-brand-600 to-brand-700 p-4 text-white">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 class="font-semibold">Dra. Lourdes Estrada</h3>
+                        <p class="text-brand-100 text-sm">Dermatóloga Certificada</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Contenido del widget -->
+                  <div class="p-4">
+                    <h4 class="font-semibold text-gray-900 mb-3">Agenda tu Consulta</h4>
+                    
+                    <!-- Opciones de cita -->
+                    <div class="space-y-2 mb-4">
+                      <div class="p-3 border border-gray-200 rounded-lg">
+                        <div class="flex items-center justify-between">
+                          <div>
+                            <p class="font-medium text-gray-900 text-sm">Consulta Presencial</p>
+                            <p class="text-xs text-gray-600">Consultorio Roma Norte</p>
+                          </div>
+                          <span class="text-brand-600 font-semibold text-sm">$800</span>
+                        </div>
+                      </div>
+                      
+                      <div class="p-3 border border-gray-200 rounded-lg">
+                        <div class="flex items-center justify-between">
+                          <div>
+                            <p class="font-medium text-gray-900 text-sm">Teleconsulta</p>
+                            <p class="text-xs text-gray-600">Videollamada segura</p>
+                          </div>
+                          <span class="text-brand-600 font-semibold text-sm">$600</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Botón principal -->
+                    <button 
+                      onclick="window.open('https://www.doctoralia.com.mx/lourdes-estrada-alpizar/dermatologo/cuauhtemoc2', '_blank', 'noopener,noreferrer')"
+                      class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"/>
+                      </svg>
+                      Reservar en Doctoralia
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Enlace de respaldo visible -->
+              <a
+                id="zl-url"
+                class="zl-url inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                href="https://www.doctoralia.com.mx/lourdes-estrada-alpizar/dermatologo/cuauhtemoc2"
+                rel="nofollow noopener"
+                target="_blank"
+                data-zlw-doctor="lourdes-estrada-alpizar"
+                data-zlw-type="big"
+                data-zlw-opinion="true"
+                data-zlw-hide-branding="true"
+                data-zlw-saas-only="true"
+                data-zlw-a11y-title="Widget de reserva de citas médicas"
+              >
+                📅 Agendar Cita en Doctoralia
+              </a>
+              
+              <!-- Mensaje de estado del widget -->
+              <div id="widget-status" class="mt-2 text-sm text-gray-600"></div>
+              
+              <script>
+                (function() {
+                  const statusDiv = document.getElementById('widget-status');
+                  const widgetLink = document.getElementById('zl-url');
+                  
+                  // Función para mostrar estado
+                  function updateStatus(message, isError = false) {
+                    if (statusDiv) {
+                      statusDiv.textContent = message;
+                      statusDiv.className = `mt-2 text-sm ${isError ? 'text-red-600' : 'text-green-600'}`;
+                    }
+                  }
+                  
+                  // Verificar si estamos en HTTPS o HTTP
+                  const protocol = window.location.protocol;
+                  const isSecure = protocol === 'https:' || window.location.hostname === 'localhost';
+                  
+                  if (!isSecure && protocol === 'file:') {
+                    updateStatus('⚠️ Para mejor funcionamiento, abra la página con un servidor web (http:// o https://)', true);
+                    return;
+                  }
+                  
+                  // Intentar cargar el widget
+                  updateStatus('🔄 Cargando widget de Doctoralia...');
+                  
+                  !(function ($_x, _s, id) {
+                    var js, fjs = $_x.getElementsByTagName(_s)[0];
+                    if (!$_x.getElementById(id)) {
+                      js = $_x.createElement(_s);
+                      js.id = id;
+                      js.src = "https://platform.docplanner.com/js/widget.js";
+                      js.async = true;
+                      js.defer = true;
+                      
+                      js.onerror = function() {
+                        console.error('Error 403: No se pudo cargar el widget de Doctoralia');
+                        updateStatus('❌ Error al cargar widget. Use el enlace directo arriba.', true);
+                        // Hacer más visible el enlace de respaldo
+                        if (widgetLink) {
+                          widgetLink.style.animation = 'pulse 2s infinite';
+                        }
+                      };
+                      
+                      js.onload = function() {
+                        console.log('✅ Widget de Doctoralia cargado correctamente');
+                        updateStatus('✅ Widget cargado correctamente');
+                        setTimeout(() => {
+                          if (statusDiv) statusDiv.style.display = 'none';
+                        }, 3000);
+                      };
+                      
+                      fjs.parentNode.insertBefore(js, fjs);
+                    }
+                  })(document, "script", "zl-widget-s");
+                  
+                  // Timeout de seguridad
+                  setTimeout(() => {
+                    if (statusDiv && statusDiv.textContent.includes('Cargando')) {
+                      updateStatus('⏱️ El widget está tardando. Use el enlace directo arriba.', true);
+                    }
+                  }, 10000);
+                })();
+
+                // Función para alternar widget personalizado
+                function toggleCustomWidget() {
+                  const customWidget = document.getElementById('custom-widget');
+                  const toggleButton = document.getElementById('toggle-custom-widget');
+                  
+                  if (customWidget.classList.contains('hidden')) {
+                    customWidget.classList.remove('hidden');
+                    toggleButton.textContent = '🔄 Volver al widget oficial';
+                  } else {
+                    customWidget.classList.add('hidden');
+                    toggleButton.textContent = '🎨 Ver widget personalizado con tu branding';
+                  }
+                }
+              </script>
             </div>
           </div>
         </div>

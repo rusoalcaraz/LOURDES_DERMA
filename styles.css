@@ -484,3 +484,91 @@ input[type="range"].ba-range::-moz-range-thumb {
 .hero-photo {
   animation: none !important;
 }
+
+/* ===== HERO PANTALLA COMPLETA ===== */
+
+/* Asegurar que el Hero ocupe exactamente el viewport height */
+.h-screen {
+  height: 100vh;
+  min-height: 100vh;
+}
+
+/* Optimización para dispositivos móviles - usar dvh si está disponible */
+@supports (height: 100dvh) {
+  .h-screen {
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+}
+
+/* Ajustes específicos para el Hero a pantalla completa */
+section.h-screen {
+  /* Compensar la altura del header fijo */
+  padding-top: 84px;
+  box-sizing: border-box;
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 768px) {
+  section.h-screen {
+    /* En móviles, usar un padding superior menor */
+    padding-top: 72px;
+  }
+  
+  /* Ajustar el grid para móviles */
+  section.h-screen .grid {
+    gap: 2rem;
+  }
+  
+  /* Optimizar el tamaño de texto en móviles */
+  section.h-screen h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+}
+
+@media (max-width: 480px) {
+  section.h-screen {
+    padding-top: 68px;
+  }
+  
+  section.h-screen h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Ajustes para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  section.h-screen {
+    padding-top: 80px;
+  }
+}
+
+/* Ajustes para pantallas muy altas */
+@media (min-height: 900px) {
+  section.h-screen {
+    padding-top: 100px;
+  }
+}
+
+/* Ajustes para pantallas muy bajas (landscape móviles) */
+@media (max-height: 600px) {
+  section.h-screen {
+    padding-top: 60px;
+    min-height: 100vh;
+  }
+  
+  section.h-screen .grid {
+    gap: 1.5rem;
+  }
+  
+  section.h-screen h1 {
+    font-size: 2rem;
+    margin-top: 0.5rem;
+  }
+  
+  section.h-screen p {
+    font-size: 1rem;
+    margin-top: 0.75rem;
+  }
+}

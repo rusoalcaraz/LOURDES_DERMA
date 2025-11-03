@@ -1194,9 +1194,9 @@
           "ubicacion",
         ];
 
-        // Obtener todos los enlaces de navegación relevantes (desktop + móvil)
+        // Obtener solo los enlaces de navegación dentro de los navs (desktop + móvil)
         const navLinks = Array.from(
-          document.querySelectorAll('a[href^="#"]')
+          document.querySelectorAll('nav[aria-label="Navegación principal"] a[href^="#"], nav[aria-label="Navegación móvil"] a[href^="#"]')
         ).filter((a) =>
           sectionIds.includes(a.getAttribute("href").substring(1))
         );
@@ -1209,6 +1209,20 @@
           "px-2",
           "py-1",
         ];
+
+        // Limpieza: quitar clases activas de enlaces fuera del nav
+        const allSectionAnchors = Array.from(
+          document.querySelectorAll('a[href^="#"]')
+        ).filter((a) =>
+          sectionIds.includes(a.getAttribute("href").substring(1))
+        );
+        const nonNavAnchors = allSectionAnchors.filter(
+          (a) => !navLinks.includes(a)
+        );
+        nonNavAnchors.forEach((a) => {
+          activeClasses.forEach((cls) => a.classList.remove(cls));
+          a.removeAttribute("aria-current");
+        });
 
         const setActive = (id) => {
           navLinks.forEach((link) => {

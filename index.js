@@ -9,12 +9,56 @@
 document.getElementById("year").textContent =
   new Date().getFullYear();
 
-// Mobile menu toggle
+// Mobile menu toggle con ARIA y transición suave
 const btnMenu = document.getElementById("btnMenu");
 const menuMobile = document.getElementById("menuMobile");
-btnMenu?.addEventListener("click", () =>
-  menuMobile.classList.toggle("hidden")
-);
+
+if (btnMenu && menuMobile) {
+  const openMenu = () => {
+    // Quitar hidden para permitir transiciones
+    menuMobile.classList.remove("hidden");
+    // Forzar reflow para asegurar que la transición arranque
+    void menuMobile.offsetHeight;
+    // Aplicar la clase de apertura
+    menuMobile.classList.add("menu-open");
+    btnMenu.setAttribute("aria-expanded", "true");
+  };
+
+  const closeMenu = () => {
+    // Remover la clase de apertura para iniciar cierre
+    menuMobile.classList.remove("menu-open");
+    const onEnd = () => {
+      // Al finalizar la transición, ocultar completamente
+      menuMobile.classList.add("hidden");
+      menuMobile.removeEventListener("transitionend", onEnd);
+    };
+    // Fallback en caso de que no se dispare transitionend
+    setTimeout(() => {
+      if (!menuMobile.classList.contains("menu-open")) {
+        menuMobile.classList.add("hidden");
+      }
+    }, 300);
+    menuMobile.addEventListener("transitionend", onEnd);
+    btnMenu.setAttribute("aria-expanded", "false");
+  };
+
+  btnMenu.addEventListener("click", () => {
+    const isHidden = menuMobile.classList.contains("hidden");
+    if (isHidden) {
+      openMenu();
+    } else {
+      closeMenu();
+    }
+  });
+
+  // Cerrar con tecla Escape y devolver foco al botón
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && btnMenu.getAttribute("aria-expanded") === "true") {
+      closeMenu();
+      btnMenu.focus();
+    }
+  });
+}
 
 // Tabs servicios
 const tabButtons = document.querySelectorAll(".tab-btn");

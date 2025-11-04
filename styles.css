@@ -572,3 +572,115 @@ section.h-screen {
     margin-top: 0.75rem;
   }
 }
+/* ===== Navbar: ajustes para ≤1023px (lg breakpoint) ===== */
+@media (max-width: 1023px) {
+  /* Ocultar CTA principal del navbar, mostrar solo en menú móvil */
+  .cta-primary {
+    display: none !important;
+  }
+
+  /* Mantener ícono de WhatsApp visible; ocultar texto del teléfono */
+  .phone-link .phone-number {
+    opacity: 0;
+    width: 0;
+    margin: 0;
+    padding: 0;
+    transform: translateX(-4px);
+    transition: opacity 200ms ease, transform 200ms ease, width 200ms ease;
+    overflow: hidden;
+  }
+  .phone-link .phone-icon {
+    transition: transform 200ms ease, opacity 200ms ease;
+  }
+
+  /* Alinear verticalmente los iconos sociales en el navbar */
+  .header-actions,
+  .social-group {
+    align-items: center;
+  }
+}
+
+/* Forzar una sola línea del texto del CTA a partir de 853px */
+@media (min-width: 853px) {
+  .cta-primary span {
+    white-space: nowrap;
+  }
+}
+
+/* ===== Menú móvil: transiciones suaves ===== */
+/* Estado base del contenedor de menú móvil (cuando no está oculto) */
+.menu-mobile {
+  max-height: 0px;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 250ms ease, opacity 200ms ease;
+}
+.menu-mobile.menu-open {
+  max-height: 600px; /* suficiente para el contenido */
+  opacity: 1;
+}
+/* ===== Redes sociales: visibilidad y tamaños táctiles ===== */
+/* Base: asegurar que los enlaces de redes sean botones táctiles accesibles */
+.social-group a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px; /* tamaño mínimo recomendado por material/apple */
+  min-height: 44px;
+  border-radius: 0.5rem;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+.social-group a i {
+  font-size: 1.125rem; /* ~18px por defecto */
+}
+.social-group a:hover {
+  transform: scale(1.05);
+}
+.social-group a:focus-visible {
+  outline: 2px solid #7c3aed; /* visible focus */
+  outline-offset: 2px;
+}
+
+/* Contenedor siempre visible y alineado */
+.header-actions {
+  gap: 0.75rem; /* base razonable */
+}
+
+/* ≤639px: optimizar para pantallas pequeñas sin ocultar nada */
+@media (max-width: 639px) {
+  .header-actions {
+    gap: 0.5rem;
+  }
+  .social-group a {
+    min-width: 40px;
+    min-height: 40px;
+  }
+  .social-group a i {
+    font-size: 1rem; /* ~16px para compactar en móviles muy pequeños */
+  }
+}
+
+/* 640–853px: dar un poco más de aire */
+@media (min-width: 640px) and (max-width: 853px) {
+  .header-actions {
+    gap: 0.625rem;
+  }
+  .social-group a {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .social-group a i {
+    font-size: 1.125rem;
+  }
+}
+
+/* ≥854px: tamaño cómodo, sin exagerar */
+@media (min-width: 854px) {
+  .social-group a {
+    min-width: 48px;
+    min-height: 48px;
+  }
+  .social-group a i {
+    font-size: 1.25rem; /* ~20px */
+  }
+}

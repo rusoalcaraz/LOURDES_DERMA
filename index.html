@@ -168,7 +168,7 @@
           </a>
 
           <nav
-            class="hidden md:flex items-center gap-6"
+            class="hidden lg:flex items-center gap-6"
             aria-label="Navegación principal"
           >
             <a href="#inicio" class="hover:text-brand-700 transition"
@@ -182,13 +182,8 @@
             <a
               href="#antes-despues"
               class="hover:text-brand-700 transition"
-              >Antes y Después</a
+              >Casos</a
             >
-            <!--
-            <a href="#reseñas" class="hover:text-brand-700 transition">
-              Reseñas
-            </a>
-            -->
             <a
               href="#ubicacion"
               class="hover:text-brand-700 transition"
@@ -196,19 +191,14 @@
             >
           </nav>
 
-          <div class="hidden sm:flex items-center gap-4">
-            <a
-              href="tel:+525529178873"
-              class="text-sm hover:text-brand-700 phone-link"
-            >
-              <i class="fa-brands fa-whatsapp text-lg phone-icon"></i>
-              55 29 17 88 73
-            </a>
+          <div
+            class="flex items-center gap-3 header-actions"
+          >
             <a
               href="https://www.doctoralia.com.mx/lourdes-estrada-alpizar/dermatologo/cuauhtemoc2#news-section"
               target="_blank"
               rel="noopener"
-              class="relative inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white overflow-hidden transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg"
+              class="relative inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white overflow-hidden transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg cta-primary"
             >
               <span
                 class="absolute inset-0 w-full h-full bg-white/20 translate-x-[-100%] skew-x-[-20deg] transition-all duration-500 ease-out hover:translate-x-[200%]"
@@ -216,7 +206,17 @@
               <i class="fa-regular fa-calendar-days z-10"></i>
               <span class="z-10">Agendar cita</span>
             </a>
-            <div class="flex items-center gap-3 ml-1">
+            <div class="flex items-center gap-3 ml-1 social-group">
+              <a
+                href="tel:+525529178873"
+                class="text-sm hover:text-brand-700 phone-link"
+                aria-label="Teléfono: 55 29 17 88 73"
+              >
+                <i
+                  class="fa-brands fa-whatsapp text-lg phone-icon"
+                  aria-hidden="true"
+                ></i>
+              </a>
               <a
                 href="https://www.instagram.com/tu_usuario"
                 aria-label="Instagram"
@@ -250,7 +250,10 @@
           <!-- Mobile -->
           <button
             id="btnMenu"
-            class="md:hidden p-2 rounded-lg border border-brand-100"
+            class="lg:hidden p-2 rounded-lg border border-brand-100"
+            aria-controls="menuMobile"
+            aria-expanded="false"
+            aria-label="Abrir menú"
           >
             ☰
           </button>
@@ -259,7 +262,7 @@
 
       <div
         id="menuMobile"
-        class="md:hidden hidden border-t border-brand-100/60 bg-white/90"
+        class="md:hidden hidden border-t border-brand-100/60 bg-white/90 menu-mobile"
       >
         <nav
           class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 grid gap-3"
@@ -270,7 +273,7 @@
             >Servicios</a
           >
           <a href="#antes-despues" class="hover:text-brand-700"
-            >Antes y Después</a
+            >Casos</a
           >
           <!-- <a href="#reseñas" class="hover:text-brand-700">Reseñas</a> -->
           <a href="#ubicacion" class="hover:text-brand-700"
@@ -285,7 +288,7 @@
             href="https://www.doctoralia.com.mx/lourdes-estrada-alpizar/dermatologo/cuauhtemoc2#news-section"
             target="_blank"
             rel="noopener"
-            class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft"
+            class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft mobile-cta"
             >Agendar cita</a
           >
         </nav>
@@ -796,7 +799,7 @@
               >Resultados reales</span
             >
             <h2 class="mt-2 text-3xl sm:text-4xl font-semibold">
-              Antes y Después
+              Casos
             </h2>
             <p class="mt-3 text-brand-900/80">
               <span

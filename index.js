@@ -9,6 +9,29 @@
 document.getElementById("year").textContent =
   new Date().getFullYear();
 
+// ===== Ajuste dinámico de altura del header para separar el hero =====
+const headerEl = document.querySelector("header");
+function setHeaderHeightVar() {
+  if (!headerEl) return;
+  const h = headerEl.offsetHeight;
+  // Actualiza la variable CSS usada por el hero para evitar solapamiento
+  document.documentElement.style.setProperty(
+    "--header-height",
+    `${h}px`
+  );
+}
+// Ejecutar al cargar y al redimensionar (con debounce)
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", setHeaderHeightVar);
+} else {
+  setHeaderHeightVar();
+}
+let rhTimeout;
+window.addEventListener("resize", () => {
+  clearTimeout(rhTimeout);
+  rhTimeout = setTimeout(setHeaderHeightVar, 150);
+});
+
 // Mobile menu toggle con ARIA y transición suave
 const btnMenu = document.getElementById("btnMenu");
 const menuMobile = document.getElementById("menuMobile");
@@ -22,6 +45,8 @@ if (btnMenu && menuMobile) {
     // Aplicar la clase de apertura
     menuMobile.classList.add("menu-open");
     btnMenu.setAttribute("aria-expanded", "true");
+    // Recalcular altura del header al expandir el menú
+    setHeaderHeightVar();
   };
 
   const closeMenu = () => {
@@ -40,6 +65,8 @@ if (btnMenu && menuMobile) {
     }, 300);
     menuMobile.addEventListener("transitionend", onEnd);
     btnMenu.setAttribute("aria-expanded", "false");
+    // Recalcular altura del header al contraer el menú
+    setHeaderHeightVar();
   };
 
   btnMenu.addEventListener("click", () => {

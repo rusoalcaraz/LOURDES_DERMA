@@ -409,3 +409,274 @@ if (typeof window !== 'undefined') {
     }
   };
 }
+
+// ===== NAVEGACIÓN ACTIVA EN NAVBAR =====
+/**
+ * NavbarHighlighter
+ * Gestiona el estado activo del navbar según scroll y navegación,
+ * priorizando "inicio" al estar en el top y evitando afectar enlaces fuera del nav.
+ */
+class NavbarHighlighter {
+  constructor() {
+    this.sectionIds = ["inicio", "servicios", "antes-despues", "ubicacion"];
+    this.activeClasses = [
+      "text-brand-700",
+      "font-semibold",
+      "bg-brand-100/50",
+      "rounded-md",
+      "px-2",
+      "py-1",
+    ];
+    this.navLinks = [];
+    this.headerEl = null;
+    this.headerHeight = 80;
+    this.overrideActiveId = null;
+    this.overrideExpires = 0;
+    // Control de scroll
+    this.scrollTicking = false;
+    this.lastScrollY = 0;
+  }
+
+  init() {
+    // Seleccionar solo enlaces dentro de los navs (desktop y móvil)
+    this.navLinks = Array.from(
+      document.querySelectorAll(
+        'nav[aria-label="Navegación principal"] a[href^="#"], nav[aria-label="Navegación móvil"] a[href^="#"]'
+      )
+    ).filter((a) => this.sectionIds.includes(a.getAttribute("href").substring(1)));
+
+    // Limpiar clases activas de enlaces fuera del nav
+    const allSectionAnchors = Array.from(document.querySelectorAll('a[href^="#"]'))
+      .filter((a) => this.sectionIds.includes(a.getAttribute("href").substring(1)));
+    const nonNavAnchors = allSectionAnchors.filter((a) => !this.navLinks.includes(a));
+    nonNavAnchors.forEach((a) => {
+      this.activeClasses.forEach((cls) => a.classList.remove(cls));
+      a.removeAttribute("aria-current");
+    });
+
+    this.headerEl = document.querySelector("header");
+    this.headerHeight = this.headerEl ? this.headerEl.offsetHeight : 80;
+
+    // Estado inicial por hash o por defecto "inicio"
+    const currentHash = window.location.hash.replace("#", "");
+    if (this.sectionIds.includes(currentHash)) {
+      this.setActive(currentHash);
+    } else {
+      this.setActive("inicio");
+    }
+
+    this.setupObserver();
+    this.setupListeners();
+    this.runLightTests();
+  }
+
+  setActive(id) {
+    this.navLinks.forEach((link) => {
+      const isActive = link.getAttribute("href") === `#${id}`;
+      this.activeClasses.forEach((cls) => link.classList.toggle(cls, isActive));
+      if (isActive) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  applyOverride(id, ms = 800) {
+    this.overrideActiveId = id;
+    this.overrideExpires = Date.now() + ms;
+    this.setActive(id);
+  }
+
+  hasOverride() {
+    return this.overrideActiveId && Date.now() < this.overrideExpires;
+  }
+
+  setupObserver() {
+    if (!('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Priorizar "inicio" si estamos cerca del top
+        if (window.scrollY <= this.headerHeight + 4) {
+          this.setActive("inicio");
+          return;
+        }
+
+        // Si hay override manual reciente, respetarlo
+        if (this.hasOverride()) {
+          this.setActive(this.overrideActiveId);
+          return;
+        }
+
+        // Elegir la sección más visible
+        const visible = entries
+          .filter((entry) => entry.isIntersecting && this.sectionIds.includes(entry.target.id))
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible.length) {
+          this.setActive(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: "0px 0px -60% 0px",
+        threshold: [0.25, 0.5, 0.75],
+      }
+    );
+
+    this.sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  }
+
+  setupListeners() {
+    // Click en nav items
+    this.navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        const id = link.getAttribute("href").substring(1);
+        this.applyOverride(id);
+      });
+    });
+
+    // Cualquier enlace hacia #inicio (incluye branding)
+    Array.from(document.querySelectorAll('a[href="#inicio"]')).forEach((link) => {
+      link.addEventListener("click", () => {
+        this.applyOverride("inicio");
+      });
+    });
+
+    // Hashchange
+    window.addEventListener("hashchange", () => {
+      const id = window.location.hash.replace("#", "");
+      if (this.sectionIds.includes(id)) {
+        this.applyOverride(id);
+      } else {
+        this.applyOverride("inicio");
+      }
+    });
+
+    // Scroll: detección de sección visible y tope de página
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (this.scrollTicking) return;
+        this.scrollTicking = true;
+        requestAnimationFrame(() => {
+          this.scrollTicking = false;
+          this.handleScroll();
+        });
+      },
+      { passive: true }
+    );
+  }
+
+  // Determina y marca la sección activa basada en la visibilidad en viewport
+  handleScroll() {
+    const y = window.scrollY || window.pageYOffset || 0;
+    const direction = y < this.lastScrollY ? "up" : "down";
+    this.lastScrollY = y;
+
+    // Priorizar Inicio en el tope
+    if (y <= 2) {
+      this.setActive("inicio");
+      return;
+    }
+
+    // Si hay override por clic reciente y no estamos en el tope, respetarlo brevemente
+    if (this.hasOverride()) {
+      this.setActive(this.overrideActiveId);
+      return;
+    }
+
+    const viewTop = this.headerHeight;
+    const viewBottom = window.innerHeight;
+    const candidates = [];
+    for (const id of this.sectionIds) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      const top = rect.top;
+      const bottom = rect.bottom;
+      const height = rect.height || (bottom - top);
+
+      // Intersección con el viewport, considerando el header fijo como margen superior
+      const visibleTop = Math.max(top, viewTop);
+      const visibleBottom = Math.min(bottom, viewBottom);
+      const visible = Math.max(0, visibleBottom - visibleTop);
+      const ratio = height > 0 ? visible / height : 0;
+
+      if (visible > 0) {
+        candidates.push({ id, ratio, distanceToTop: Math.abs(top - viewTop) });
+      }
+    }
+
+    if (candidates.length === 0) {
+      // Ninguna sección claramente visible: heurística por dirección
+      // Arriba: favorecer Inicio si estamos cerca del top
+      if (direction === "up" && y <= this.headerHeight + 16) {
+        this.setActive("inicio");
+        return;
+      }
+      // En caso contrario, elegir la más cercana al top aunque no esté intersectando
+      let closest = null;
+      for (const id of this.sectionIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top;
+        const distance = Math.abs(top - viewTop);
+        if (!closest || distance < closest.distance) {
+          closest = { id, distance };
+        }
+      }
+      if (closest) this.setActive(closest.id);
+      return;
+    }
+
+    // Elegir por mayor visibilidad; desempate por cercanía al top
+    candidates.sort((a, b) => {
+      if (b.ratio !== a.ratio) return b.ratio - a.ratio;
+      return a.distanceToTop - b.distanceToTop;
+    });
+
+    // Si estamos muy cerca del top y Inicio está entre candidatos, priorizarlo
+    if (y <= this.headerHeight + 16) {
+      const inicioCand = candidates.find((c) => c.id === "inicio");
+      if (inicioCand) {
+        this.setActive("inicio");
+        return;
+      }
+    }
+
+    this.setActive(candidates[0].id);
+  }
+
+  // Pruebas ligeras sin dependencias
+  runLightTests() {
+    try {
+      const onlyNavs = Array.from(document.querySelectorAll('a[href^="#"]'))
+        .filter((a) => this.sectionIds.includes(a.getAttribute("href").substring(1)))
+        .every((a) => this.navLinks.includes(a) || !this.activeClasses.some((cls) => a.classList.contains(cls)));
+      if (!onlyNavs) console.warn("NavbarHighlighter: limpieza de clases activas fuera del nav incompleta");
+
+      // Simular activación de inicio
+      this.applyOverride("inicio", 10);
+      const inicioMarked = this.navLinks.some((a) => a.getAttribute("href") === "#inicio" && a.getAttribute("aria-current") === "page");
+      if (!inicioMarked) console.warn("NavbarHighlighter: 'Inicio' no se marcó como activo en la prueba");
+    } catch (e) {
+      console.warn("NavbarHighlighter: pruebas ligeras encontraron un problema", e);
+    }
+  }
+}
+
+// Inicializar el highlighter cuando se carga el script
+if (typeof window !== 'undefined') {
+  const initHighlighter = () => {
+    window.navbarHighlighter = new NavbarHighlighter();
+    window.navbarHighlighter.init();
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHighlighter);
+  } else {
+    initHighlighter();
+  }
+}

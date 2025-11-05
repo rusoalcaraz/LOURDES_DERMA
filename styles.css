@@ -644,10 +644,16 @@ section.hero-section {
 /* ===== Menú móvil: transiciones suaves ===== */
 /* Estado base del contenedor de menú móvil (cuando no está oculto) */
 .menu-mobile {
+  /* Estado colapsado */
   max-height: 0px;
   opacity: 0;
+  transform: translateY(-8px);
   overflow: hidden;
-  transition: max-height 250ms ease, opacity 200ms ease;
+  transition:
+    max-height var(--menu-transition-duration, 250ms) ease,
+    opacity var(--menu-transition-duration, 250ms) ease,
+    transform var(--menu-transition-duration, 250ms) ease;
+  will-change: max-height, opacity, transform;
   /* Evitar líneas o espacio visual cuando está colapsado */
   border-top-width: 0;
   position: fixed;
@@ -659,6 +665,7 @@ section.hero-section {
 .menu-mobile.menu-open {
   max-height: 600px; /* suficiente para el contenido */
   opacity: 1;
+  transform: translateY(0);
   /* Mostrar borde únicamente cuando está expandido */
   border-top-width: 1px;
 }

@@ -37,6 +37,11 @@ const btnMenu = document.getElementById("btnMenu");
 const menuMobile = document.getElementById("menuMobile");
 
 if (btnMenu && menuMobile) {
+  // Configuración del menú móvil
+  const menuConfig = {
+    outsideCloseEnabled: true,
+    transitionMs: 250,
+  };
   const openMenu = () => {
     // Quitar hidden para permitir transiciones
     menuMobile.classList.remove("hidden");
@@ -47,6 +52,8 @@ if (btnMenu && menuMobile) {
     btnMenu.setAttribute("aria-expanded", "true");
     // No recalcular altura del header: el menú es overlay fijo y
     // no debe afectar el espacio del header
+    // Aplicar duración configurable a la transición
+    menuMobile.style.setProperty("--menu-transition-duration", `${menuConfig.transitionMs}ms`);
   };
 
   const closeMenu = () => {
@@ -65,7 +72,7 @@ if (btnMenu && menuMobile) {
         menuMobile.classList.add("hidden");
         setHeaderHeightVar();
       }
-    }, 300);
+    }, menuConfig.transitionMs + 50);
     menuMobile.addEventListener("transitionend", onEnd);
     btnMenu.setAttribute("aria-expanded", "false");
     // Nota: el recálculo se hace al final para evitar capturar alturas intermedias
@@ -90,6 +97,34 @@ if (btnMenu && menuMobile) {
       }, 0);
     });
   });
+
+  // Utilidad para detectar elementos interactivos
+  const isInteractive = (el) => {
+    if (!el) return false;
+    const interactiveSelector = 'a, button, input, select, textarea, label, [role="button"], [role="link"], [tabindex]';
+    return !!el.closest(interactiveSelector);
+  };
+
+  // Cierre por clic/touch fuera del panel
+  const outsideHandler = (ev) => {
+    if (!menuConfig.outsideCloseEnabled) return;
+    const isOpen = menuMobile.classList.contains("menu-open") && !menuMobile.classList.contains("hidden");
+    if (!isOpen) return;
+    const target = ev.target;
+    if (menuMobile.contains(target) || btnMenu.contains(target)) return;
+    if (isInteractive(target)) return;
+    setTimeout(() => {
+      closeMenu();
+    }, 0);
+  };
+  document.addEventListener('pointerdown', outsideHandler, true);
+  document.addEventListener('touchstart', outsideHandler, { passive: true, capture: true });
+  document.addEventListener('mousedown', outsideHandler, true);
+
+  // API pública para habilitar/deshabilitar cierre exterior
+  window.setMenuOutsideCloseEnabled = function(flag) {
+    menuConfig.outsideCloseEnabled = !!flag;
+  };
 
   // Cerrar con tecla Escape y devolver foco al botón
   document.addEventListener("keydown", (e) => {

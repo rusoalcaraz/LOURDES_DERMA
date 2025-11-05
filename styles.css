@@ -229,6 +229,19 @@ input[type="range"].ba-range::-moz-range-thumb {
   transform: scale(1.05);
 }
 
+/* Íconos sociales (Instagram, Facebook, TikTok) con misma animación */
+.social-group i {
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+.social-group a:not(.phone-link):hover i {
+  animation: phone-ring 0.8s ease-in-out;
+  transform: scale(1.1);
+}
+.social-group a:not(.phone-link):hover {
+  transform: scale(1.05);
+}
+
 /* ===================== MAPAS (estilos y estados) ===================== */
 .map-container {
   position: relative;
@@ -394,6 +407,7 @@ input[type="range"].ba-range::-moz-range-thumb {
   .marquee__track,
   .ba-anim,
   .phone-link:hover .phone-icon,
+  .social-group a:hover i,
   .map-container iframe,
   .map-loading .spinner,
   .map-error .error-actions a,

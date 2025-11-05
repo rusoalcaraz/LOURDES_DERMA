@@ -22,6 +22,11 @@ html {
   }
 }
 
+/* Utilidad: números tabulares para alinear horarios */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
 #doctoralia-widget-container {
   display: flex;
   flex-direction: column;

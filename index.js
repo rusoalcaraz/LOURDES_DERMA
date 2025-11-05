@@ -80,6 +80,17 @@ if (btnMenu && menuMobile) {
     }
   });
 
+  // Cerrar automáticamente el menú al seleccionar cualquier opción dentro del panel
+  const menuLinks = menuMobile.querySelectorAll("a");
+  menuLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      // Dar prioridad a la navegación/acción del enlace y cerrar justo después
+      setTimeout(() => {
+        closeMenu();
+      }, 0);
+    });
+  });
+
   // Cerrar con tecla Escape y devolver foco al botón
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && btnMenu.getAttribute("aria-expanded") === "true") {

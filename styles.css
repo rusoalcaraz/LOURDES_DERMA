@@ -648,10 +648,19 @@ section.hero-section {
   opacity: 0;
   overflow: hidden;
   transition: max-height 250ms ease, opacity 200ms ease;
+  /* Evitar líneas o espacio visual cuando está colapsado */
+  border-top-width: 0;
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  z-index: 40;
 }
 .menu-mobile.menu-open {
   max-height: 600px; /* suficiente para el contenido */
   opacity: 1;
+  /* Mostrar borde únicamente cuando está expandido */
+  border-top-width: 1px;
 }
 /* ===== Redes sociales: visibilidad y tamaños táctiles ===== */
 /* Base: asegurar que los enlaces de redes sean botones táctiles accesibles */

@@ -45,8 +45,8 @@ if (btnMenu && menuMobile) {
     // Aplicar la clase de apertura
     menuMobile.classList.add("menu-open");
     btnMenu.setAttribute("aria-expanded", "true");
-    // Recalcular altura del header al expandir el menú
-    setHeaderHeightVar();
+    // No recalcular altura del header: el menú es overlay fijo y
+    // no debe afectar el espacio del header
   };
 
   const closeMenu = () => {
@@ -56,17 +56,19 @@ if (btnMenu && menuMobile) {
       // Al finalizar la transición, ocultar completamente
       menuMobile.classList.add("hidden");
       menuMobile.removeEventListener("transitionend", onEnd);
+      // Recalcular altura del header tras ocultar, por seguridad
+      setHeaderHeightVar();
     };
     // Fallback en caso de que no se dispare transitionend
     setTimeout(() => {
       if (!menuMobile.classList.contains("menu-open")) {
         menuMobile.classList.add("hidden");
+        setHeaderHeightVar();
       }
     }, 300);
     menuMobile.addEventListener("transitionend", onEnd);
     btnMenu.setAttribute("aria-expanded", "false");
-    // Recalcular altura del header al contraer el menú
-    setHeaderHeightVar();
+    // Nota: el recálculo se hace al final para evitar capturar alturas intermedias
   };
 
   btnMenu.addEventListener("click", () => {
@@ -85,6 +87,62 @@ if (btnMenu && menuMobile) {
       btnMenu.focus();
     }
   });
+}
+
+// Pruebas ligeras del menú móvil: validan estados por breakpoint y espacios colapsados
+function runMenuLightTests() {
+  try {
+    const btn = document.getElementById("btnMenu");
+    const menu = document.getElementById("menuMobile");
+    if (!btn || !menu) return;
+    const width = window.innerWidth;
+    const originalClasses = menu.className;
+
+    // Verificar que el menú esté oculto en lg+ (≥1024px)
+    const hasLgHidden = /\blg:hidden\b/.test(originalClasses);
+    if (width >= 1024 && !hasLgHidden) {
+      console.warn("MenuMobile: debería ocultarse en pantallas lg+ (≥1024px)");
+    }
+
+    // Simular apertura/cierre en rango md (768–1023px)
+    if (width >= 768 && width < 1024) {
+      menu.classList.remove("hidden");
+      void menu.offsetHeight;
+      menu.classList.add("menu-open");
+      const openedHeight = menu.scrollHeight;
+      if (openedHeight < 120) {
+        console.warn("MenuMobile: altura expandida parece insuficiente en md (" + openedHeight + "px)");
+      }
+      // Cerrar y comprobar que no deja espacio visible
+      menu.classList.remove("menu-open");
+      menu.classList.add("hidden");
+    }
+
+    // Validación en sm (<768px): colapsado sin espacio visual
+    if (width < 768) {
+      // Forzar colapso visual sin 'hidden' para comprobar borde/altura
+      menu.classList.remove("menu-open");
+      menu.classList.remove("hidden");
+      const cs = window.getComputedStyle(menu);
+      const maxH = parseFloat(cs.maxHeight || "0");
+      const borderTop = parseFloat(cs.borderTopWidth || "0");
+      if (maxH > 0 || borderTop > 0) {
+        console.warn("MenuMobile: posible espacio o borde visible en estado colapsado en sm");
+      }
+    }
+
+    // Restaurar estado original para no afectar UX
+    menu.className = originalClasses;
+  } catch (e) {
+    console.warn("MenuMobile: pruebas ligeras encontraron un problema", e);
+  }
+}
+
+// Ejecutar pruebas del menú al cargar
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", runMenuLightTests);
+} else {
+  runMenuLightTests();
 }
 
 // Tabs servicios

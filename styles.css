@@ -666,6 +666,8 @@ section.hero-section {
   left: 0;
   right: 0;
   z-index: 40;
+  /* Fondo overlay con gradiente sutil coherente con marca */
+  background: linear-gradient(180deg, rgba(14, 36, 49, 0.96) 0%, rgba(14, 36, 49, 0.88) 100%);
 }
 .menu-mobile.menu-open {
   max-height: 600px; /* suficiente para el contenido */
@@ -673,6 +675,43 @@ section.hero-section {
   transform: translateY(0);
   /* Mostrar borde únicamente cuando está expandido */
   border-top-width: 1px;
+}
+
+/* Superficie interior translúcida para contenido del menú */
+.menu-surface {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(140%) blur(6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Header del menú: jerarquía visual */
+.menu-header h3 {
+  font-size: 1rem;
+}
+.menu-header p {
+  margin-top: 2px;
+}
+
+/* Lista e ítems del menú: composición, iconos y accesibilidad */
+.menu-list .menu-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  color: #0e2431; /* texto base acorde a marca */
+  transition: background-color 160ms ease, transform 160ms ease, color 160ms ease;
+}
+.menu-list .menu-link i {
+  color: inherit; /* respeta clases como text-brand-700 */
+}
+.menu-list .menu-link:hover {
+  background-color: rgba(59, 130, 246, 0.08);
+  transform: translateX(2px);
+}
+.menu-list .menu-link:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.6);
+  outline-offset: 2px;
 }
 /* ===== Redes sociales: visibilidad y tamaños táctiles ===== */
 /* Base: asegurar que los enlaces de redes sean botones táctiles accesibles */

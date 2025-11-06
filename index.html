@@ -258,33 +258,70 @@
         </div>
       </div>
 
-      <div
-        id="menuMobile"
-        class="lg:hidden hidden border-t border-brand-100/60 bg-white/90 menu-mobile"
-      >
-        <nav
-          class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 grid gap-3"
-          aria-label="Navegación móvil"
-        >
-          <a href="#inicio" class="hover:text-brand-700">Inicio</a>
-          <a href="#servicios" class="hover:text-brand-700"
-            >Servicios</a
+      <div id="menuMobile" class="lg:hidden hidden menu-mobile">
+        <div class="menu-surface border-t border-brand-100/60">
+          <nav
+            class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 grid gap-4"
+            aria-label="Navegación móvil"
           >
-          <a href="#antes-despues" class="hover:text-brand-700"
-            >Casos</a
-          >
-          <!-- <a href="#reseñas" class="hover:text-brand-700">Reseñas</a> -->
-          <a href="#ubicacion" class="hover:text-brand-700"
-            >Ubicación</a
-          >
-          <a
-            href="https://www.doctoralia.com.mx/lourdes-estrada-alpizar/dermatologo/cuauhtemoc2#news-section"
-            target="_blank"
-            rel="noopener"
-            class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft mobile-cta"
-            >Agendar cita</a
-          >
-        </nav>
+            <div class="menu-header flex items-center gap-3">
+              <i
+                class="fa-solid fa-bars-staggered text-brand-400 text-lg"
+              ></i>
+              <div>
+                <h3
+                  class="text-brand-900 font-semibold leading-tight"
+                >
+                  Navegación
+                </h3>
+                <p class="text-brand-700/80 text-sm">
+                  Elige una sección
+                </p>
+              </div>
+            </div>
+
+            <ul class="menu-list grid gap-2">
+              <li>
+                <a href="#inicio" class="menu-link">
+                  <i class="fa-solid fa-house text-brand-700"></i>
+                  <span>Inicio</span>
+                </a>
+              </li>
+              <li>
+                <a href="#servicios" class="menu-link">
+                  <i class="fa-solid fa-stethoscope text-brand-700"></i>
+                  <span>Servicios</span>
+                </a>
+              </li>
+              <li>
+                <a href="#antes-despues" class="menu-link">
+                  <i class="fa-solid fa-images text-brand-700"></i>
+                  <span>Casos</span>
+                </a>
+              </li>
+              <!-- <li>
+                <a href="#reseñas" class="menu-link">
+                  <i class="fa-regular fa-star"></i>
+                  <span>Reseñas</span>
+                </a>
+              </li> -->
+              <li>
+                <a href="#ubicacion" class="menu-link">
+                  <i class="fa-solid fa-location-dot text-brand-700"></i>
+                  <span>Ubicación</span>
+                </a>
+              </li>
+            </ul>
+
+            <a
+              href="https://www.doctoralia.com.mx/lourdes-estrada-alpizar/dermatologo/cuauhtemoc2#news-section"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-brand-700 text-white hover:opacity-90 shadow-soft mobile-cta"
+              >Agendar cita</a
+            >
+          </nav>
+        </div>
       </div>
     </header>
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <title>
       Dra. Lourdes Estrada Alpízar — Dermatología Clínica y Estética
@@ -13,17 +13,22 @@
     <!-- SEO básico -->
     <meta
       name="description"
-      content="Dermatóloga certificada en Ciudad de México. Tratamientos clínicos y estéticos: acné, manchas, melasma, alopecia, rejuvenecimiento y más. Agenda tu cita en Doctoralia."
+      content="Dermatóloga certificada en CDMX. Atención humana basada en evidencia para acné, manchas, melasma, alopecia y rejuvenecimiento. Agenda tu cita con la Dra. Lourdes Estrada Alpízar en Doctoralia."
     />
     <meta
       name="keywords"
-      content="dermatóloga, dermatología, acné, manchas, melasma, alopecia, botox, rellenos, láser, peelings, Ciudad de México, toxina botulínica"
+      content="dermatóloga certificada, dermatología clínica y estética, acné, manchas, melasma, alopecia, rejuvenecimiento, botox, rellenos, láser, peelings, Ciudad de México, CDMX, Dra. Lourdes Estrada Alpízar, Doctoralia"
     />
-    <link rel="canonical" href="https://www.tu-dominio.com/" />
+    <meta name="author" content="Dra. Lourdes Estrada Alpízar" />
+    <link rel="canonical" href="https://www.dralourdesderma.com/" />
+    <link rel="alternate" href="https://www.dralourdesderma.com/" hreflang="es-MX" />
+    <link rel="alternate" href="https://www.dralourdesderma.com/" hreflang="x-default" />
     <meta
       name="robots"
       content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
     />
+    <meta name="theme-color" content="#6F6FBB" />
+    <meta http-equiv="Content-Language" content="es-MX" />
 
     <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website" />
@@ -33,17 +38,19 @@
     />
     <meta
       property="og:description"
-      content="Atención dermatológica de confianza en Ciudad de México. Agenda tu cita en Doctoralia."
+      content="Atención dermatológica de confianza en Ciudad de México. Tratamientos clínicos y estéticos con resultados naturales. Agenda tu cita en Doctoralia."
     />
     <meta
       property="og:url"
       content="https://www.dralourdesderma.com/"
     />
-    <meta
-      property="og:image"
-      content="https://www.dralourdesderma.com/image.jpg"
-    />
+    <meta property="og:site_name" content="Dra. Lourdes Derma" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:image" content="https://www.dralourdesderma.com/og-image.jpg" />
+    <meta property="og:image:alt" content="Dermatóloga certificada en CDMX — Dra. Lourdes" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dra. Lourdes Estrada Alpízar — Dermatología Clínica y Estética" />
+    <meta name="twitter:description" content="Dermatóloga certificada en CDMX. Atención basada en evidencia para el cuidado de tu piel, cabello y uñas." />
 
     <!-- Favicon -->
     <link
@@ -55,6 +62,8 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
+    <!-- Preconnect / DNS Prefetch para recursos externos -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     <!-- Font Awesome (único CDN) -->
     <link
       rel="stylesheet"
@@ -115,6 +124,9 @@
     <!-- Tus estilos -->
     <link rel="stylesheet" href="styles.css" />
 
+    <!-- Preload de imagen crítica del hero para mejorar LCP -->
+    <link rel="preload" as="image" href="assets/img/lulu.png" imagesizes="100vw" />
+
     <!-- Schema.org JSON-LD con datos reales -->
     <script type="application/ld+json">
       {
@@ -139,6 +151,16 @@
         "openingHours": ["Mo-Fr 09:00-18:00", "Sa 09:00-14:00"],
         "priceRange": "$$",
         "medicalSpecialty": "Dermatology"
+      }
+    </script>
+    <!-- Organización para branding en buscadores -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Dra. Lourdes Derma",
+        "url": "https://www.dralourdesderma.com/",
+        "logo": "https://www.dralourdesderma.com/assets/icons/fotodeperfil.svg"
       }
     </script>
   </head>

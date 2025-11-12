@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pruebas Cookie Consent</title>
+    <link rel="stylesheet" href="../cookie-consent.css" />
+    <script src="../cookie-consent.js" defer></script>
+    <script defer>
+      document.addEventListener('DOMContentLoaded', () => {
+        const log = (msg) => {
+          const el = document.createElement('pre'); el.textContent = msg; document.body.appendChild(el);
+        };
+        try {
+          // CRUD
+          CookieConsent.CookieManager.create('test_cookie', { a: 1 }, { days: 1 });
+          const read1 = CookieConsent.CookieManager.read('test_cookie');
+          CookieConsent.CookieManager.update('test_cookie', { a: 2 }, { days: 1 });
+          const read2 = CookieConsent.CookieManager.read('test_cookie');
+          CookieConsent.CookieManager.delete('test_cookie');
+          const read3 = CookieConsent.CookieManager.read('test_cookie');
+          log('CRUD ok: ' + JSON.stringify({ read1, read2, read3 }));
+
+          // Consent
+          CookieConsent.ConsentManager.setConsent({ preferences: true, analytics: false, marketing: false });
+          const c = CookieConsent.ConsentManager.getConsent();
+          log('Consent ok: ' + JSON.stringify(c));
+
+          // List
+          log('List: ' + JSON.stringify(CookieConsent.CookieManager.list()));
+
+          // Expiry notifier
+          CookieConsent.CookieManager.create('soon_cookie', 'x', { days: 1 });
+          CookieConsent.ExpiryNotifier.track('soon_cookie', 1);
+          CookieConsent.ExpiryNotifier.schedule(2);
+          log('Expiry notifier scheduled.');
+        } catch (e) {
+          log('Error: ' + e.message);
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Pruebas del módulo de cookies</h1>
+  </body>
+</html>

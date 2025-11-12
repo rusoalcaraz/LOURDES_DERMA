@@ -100,3 +100,45 @@ Desarrollador Front-End
 ---
 
 © 2025 Dra. Lourdes Estrada Alpízar. Todos los derechos reservados.
+## Módulo de gestión de cookies (CookieConsent)
+
+Este sitio incluye un módulo de consentimiento y gestión de cookies que cumple buenas prácticas de privacidad (GDPR/CCPA) y proporciona una interfaz amigable.
+
+### Características
+- CRUD de cookies (crear, leer, actualizar, eliminar) con validación de nombre/tamaño.
+- Codificación base64 para valores y opciones de seguridad (`Secure` si HTTPS, `SameSite=Lax`).
+- Banner de consentimiento y modal de preferencias responsive, con animaciones suaves.
+- Categorías: necesarias (siempre activas), preferencias, analíticas y marketing.
+- Notificador de expiración (toast) para cookies cercanas a caducar.
+
+### Uso para desarrolladores
+```js
+// Crear cookie persistente por 7 días
+CookieConsent.CookieManager.create('prefs', { theme: 'light' }, { days: 7 });
+
+// Leer
+const prefs = CookieConsent.CookieManager.read('prefs');
+
+// Actualizar
+CookieConsent.CookieManager.update('prefs', { theme: 'dark' }, { days: 7 });
+
+// Eliminar
+CookieConsent.CookieManager.delete('prefs');
+
+// Consentimiento
+CookieConsent.ConsentManager.setConsent({ preferences: true, analytics: false, marketing: false });
+```
+
+### Integración
+- El módulo se carga desde `cookie-consent.js` y los estilos en `cookie-consent.css`.
+- El banner y el modal están insertados al inicio del `<body>` en `index.html`.
+- Los botones permiten aceptar todas, rechazar no esenciales o configurar categorías.
+
+### Pruebas
+- Ejecuta las pruebas abriendo `tests/cookie-consent.test.html` en el navegador.
+- Verás resultados de CRUD, consentimiento y notificador en la página.
+
+### Consideraciones de seguridad
+- El atributo `HttpOnly` no se puede establecer desde JavaScript del cliente.
+- No guardes datos sensibles en cookies; prefiere tokens opacos o identificadores.
+- Usa HTTPS para habilitar `Secure` y mitigar riesgos.

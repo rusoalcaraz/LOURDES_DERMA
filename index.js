@@ -855,3 +855,225 @@ if (typeof window !== 'undefined') {
     initHighlighter();
   }
 }
+
+// ===== MÓDULO DE COOKIES (consolidado) =====
+/* Cookie Consent Module – GDPR/CCPA compliant
+ * Provides: CookieManager (CRUD + validation), ConsentManager (categories),
+ * ExpiryNotifier (toast), and UI wiring for banner + preferences modal.
+ */
+(() => {
+  const isHTTPS = typeof location !== 'undefined' && location.protocol === 'https:';
+
+  const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+  const toUTCString = (date) => date.toUTCString();
+
+  const b64 = {
+    encode: (str) => typeof btoa !== 'undefined' ? btoa(unescape(encodeURIComponent(str))) : str,
+    decode: (str) => typeof atob !== 'undefined' ? decodeURIComponent(escape(atob(str))) : str,
+  };
+
+  const nameRegex = /^[A-Za-z0-9_\-\.]{1,64}$/;
+  const sizeLimitBytes = 4096;
+
+  const defaultCookieOpts = {
+    path: '/',
+    secure: isHTTPS,
+    sameSite: 'Lax',
+  };
+
+  class CookieManager {
+    static create(name, value, { days = null, path = defaultCookieOpts.path, secure = defaultCookieOpts.secure, sameSite = defaultCookieOpts.sameSite, domain = null } = {}) {
+      if (!nameRegex.test(name)) throw new Error('Nombre de cookie inválido');
+      const stringValue = typeof value === 'string' ? value : JSON.stringify(value);
+      const encodedValue = b64.encode(stringValue);
+      if (encodedValue.length > sizeLimitBytes) throw new Error('Valor de cookie excede el límite de tamaño');
+
+      let cookie = `${name}=${encodedValue}`;
+      if (days !== null) {
+        const expires = new Date();
+        expires.setDate(expires.getDate() + days);
+        cookie += `; Expires=${toUTCString(expires)}`;
+      }
+      cookie += `; Path=${path}`;
+      if (domain) cookie += `; Domain=${domain}`;
+      if (secure) cookie += '; Secure';
+      if (sameSite) cookie += `; SameSite=${sameSite}`;
+
+      document.cookie = cookie;
+      return true;
+    }
+
+    static read(name) {
+      const cookies = document.cookie ? document.cookie.split('; ') : [];
+      for (const c of cookies) {
+        const [k, v] = c.split('=');
+        if (k === name) {
+          try {
+            const decoded = b64.decode(v);
+            try { return JSON.parse(decoded); } catch { return decoded; }
+          } catch { return v; }
+        }
+      }
+      return null;
+    }
+
+    static update(name, value, opts = {}) {
+      if (CookieManager.read(name) === null) throw new Error('Cookie no existe');
+      return CookieManager.create(name, value, opts);
+    }
+
+    static delete(name, { path = defaultCookieOpts.path, domain = null } = {}) {
+      let cookie = `${name}=; Expires=${toUTCString(new Date(0))}; Path=${path}`;
+      if (domain) cookie += `; Domain=${domain}`;
+      document.cookie = cookie;
+      return true;
+    }
+
+    static list() {
+      const out = {};
+      const cookies = document.cookie ? document.cookie.split('; ') : [];
+      for (const c of cookies) {
+        const [k, v] = c.split('=');
+        try {
+          const decoded = b64.decode(v);
+          try { out[k] = JSON.parse(decoded); } catch { out[k] = decoded; }
+        } catch { out[k] = v; }
+      }
+      return out;
+    }
+  }
+
+  const CONSENT_COOKIE = 'cookie_consent_v1';
+
+  class ConsentManager {
+    static getConsent() {
+      const c = CookieManager.read(CONSENT_COOKIE);
+      return c && typeof c === 'object' ? c : null;
+    }
+
+    static setConsent(consent, { days = 180 } = {}) {
+      const clean = {
+        necessary: true,
+        preferences: !!consent.preferences,
+        analytics: !!consent.analytics,
+        marketing: !!consent.marketing,
+        timestamp: Date.now(),
+        version: 1,
+      };
+      CookieManager.create(CONSENT_COOKIE, clean, { days });
+      document.dispatchEvent(new CustomEvent('cookie:consent:updated', { detail: clean }));
+      return clean;
+    }
+
+    static hasConsented(category) {
+      if (category === 'necessary') return true;
+      const c = ConsentManager.getConsent();
+      return !!(c && c[category]);
+    }
+  }
+
+  const Toast = {
+    show(message) {
+      const el = document.createElement('div');
+      el.className = 'cookie-toast';
+      el.setAttribute('role', 'status');
+      el.textContent = message;
+      document.body.appendChild(el);
+      setTimeout(() => el.classList.add('visible'), 20);
+      setTimeout(() => { el.classList.remove('visible'); setTimeout(() => el.remove(), 300); }, 5000);
+    }
+  };
+
+  class ExpiryNotifier {
+    static schedule(thresholdDays = 3) {
+      const meta = CookieManager.read('cookie_meta_v1') || {};
+      const soonest = Object.entries(meta)
+        .map(([name, info]) => ({ name, expiresAt: info.expiresAt }))
+        .filter(x => x.expiresAt)
+        .sort((a, b) => a.expiresAt - b.expiresAt)[0];
+      if (!soonest) return;
+      const msLeft = clamp(soonest.expiresAt - Date.now(), 0, 365 * 24 * 60 * 60 * 1000);
+      const thresholdMs = thresholdDays * 24 * 60 * 60 * 1000;
+      if (msLeft <= thresholdMs) {
+        Toast.show('Algunas cookies están por expirar pronto. Revisa tus preferencias.');
+      } else {
+        setTimeout(() => Toast.show('Algunas cookies están por expirar pronto. Revisa tus preferencias.'), msLeft - thresholdMs);
+      }
+    }
+
+    static track(name, days) {
+      const meta = CookieManager.read('cookie_meta_v1') || {};
+      const expiresAt = days === null ? null : Date.now() + days * 24 * 60 * 60 * 1000;
+      meta[name] = { expiresAt };
+      CookieManager.create('cookie_meta_v1', meta, { days: 365 });
+    }
+  }
+
+  function mountUI() {
+    const existingConsent = ConsentManager.getConsent();
+    const banner = document.getElementById('cookie-banner');
+    const modal = document.getElementById('cookie-modal');
+    const openPrefs = document.getElementById('cookie-open-prefs');
+    const acceptAll = document.getElementById('cookie-accept-all');
+    const rejectAll = document.getElementById('cookie-reject-all');
+    const savePrefs = document.getElementById('cookie-save-prefs');
+    const closeModal = document.getElementById('cookie-close-modal');
+
+    if (existingConsent) {
+      banner?.classList.add('hidden');
+    } else {
+      banner?.classList.remove('hidden');
+    }
+
+    openPrefs?.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.classList.add('visible'), 20);
+    });
+
+    closeModal?.addEventListener('click', () => {
+      modal.classList.remove('visible');
+      setTimeout(() => modal.classList.add('hidden'), 200);
+    });
+
+    acceptAll?.addEventListener('click', () => {
+      ConsentManager.setConsent({ preferences: true, analytics: true, marketing: true });
+      banner?.classList.add('hidden');
+      Toast.show('Preferencias guardadas: todas las cookies habilitadas.');
+    });
+
+    rejectAll?.addEventListener('click', () => {
+      ConsentManager.setConsent({ preferences: false, analytics: false, marketing: false });
+      banner?.classList.add('hidden');
+      Toast.show('Solo cookies necesarias habilitadas.');
+    });
+
+    savePrefs?.addEventListener('click', () => {
+      const prefs = {
+        preferences: document.getElementById('consent-preferences')?.checked || false,
+        analytics: document.getElementById('consent-analytics')?.checked || false,
+        marketing: document.getElementById('consent-marketing')?.checked || false,
+      };
+      ConsentManager.setConsent(prefs);
+      modal.classList.remove('visible');
+      setTimeout(() => modal.classList.add('hidden'), 200);
+      banner?.classList.add('hidden');
+      Toast.show('Preferencias de cookies guardadas.');
+    });
+  }
+
+  window.CookieConsent = {
+    CookieManager,
+    ConsentManager,
+    ExpiryNotifier,
+    mountUI,
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      mountUI();
+      ExpiryNotifier.schedule(3);
+    } catch (e) {
+      console.error('CookieConsent init error:', e);
+    }
+  });
+})();

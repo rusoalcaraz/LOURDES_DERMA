@@ -1018,6 +1018,8 @@ if (typeof window !== 'undefined') {
     const rejectAll = document.getElementById('cookie-reject-all');
     const savePrefs = document.getElementById('cookie-save-prefs');
     const closeModal = document.getElementById('cookie-close-modal');
+    const panel = modal?.querySelector('.cookie-modal__panel');
+    let outsideCloseHandler = null;
 
     if (existingConsent) {
       banner?.classList.add('hidden');
@@ -1028,11 +1030,35 @@ if (typeof window !== 'undefined') {
     openPrefs?.addEventListener('click', () => {
       modal.classList.remove('hidden');
       setTimeout(() => modal.classList.add('visible'), 20);
+      // Bloquear scroll del body mientras el modal esté activo
+      document.body.style.overflow = 'hidden';
+      // Cierre por clic fuera del panel sin bloquear otros elementos
+      outsideCloseHandler = (ev) => {
+        try {
+          const isVisible = modal.classList.contains('visible') && !modal.classList.contains('hidden');
+          if (!isVisible) return;
+          const target = ev.target;
+          if (panel && panel.contains(target)) return; // clic dentro del panel
+          // Cerrar suavemente y permitir que el clic continúe a otros elementos (p.ej. WhatsApp)
+          setTimeout(() => {
+            modal.classList.remove('visible');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+            document.body.style.overflow = '';
+            document.removeEventListener('pointerdown', outsideCloseHandler, true);
+          }, 0);
+        } catch (_) {}
+      };
+      document.addEventListener('pointerdown', outsideCloseHandler, true);
     });
 
     closeModal?.addEventListener('click', () => {
       modal.classList.remove('visible');
       setTimeout(() => modal.classList.add('hidden'), 200);
+      document.body.style.overflow = '';
+      if (outsideCloseHandler) {
+        document.removeEventListener('pointerdown', outsideCloseHandler, true);
+        outsideCloseHandler = null;
+      }
     });
 
     acceptAll?.addEventListener('click', () => {
@@ -1056,6 +1082,11 @@ if (typeof window !== 'undefined') {
       ConsentManager.setConsent(prefs);
       modal.classList.remove('visible');
       setTimeout(() => modal.classList.add('hidden'), 200);
+      document.body.style.overflow = '';
+      if (outsideCloseHandler) {
+        document.removeEventListener('pointerdown', outsideCloseHandler, true);
+        outsideCloseHandler = null;
+      }
       banner?.classList.add('hidden');
       Toast.show('Preferencias de cookies guardadas.');
     });

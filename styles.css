@@ -783,10 +783,12 @@ section.hero-section {
 .cookie-banner {
   position: fixed;
   inset: auto 0 0 0;
-  z-index: 60;
+  z-index: 30;
   display: grid;
   place-items: center;
   padding: 0.75rem 1rem;
+  /* No bloquear interacción fuera de la tarjeta; la tarjeta maneja eventos */
+  pointer-events: none;
 }
 .cookie-card {
   width: min(100% - 1rem, 48rem);
@@ -795,20 +797,27 @@ section.hero-section {
   backdrop-filter: blur(8px);
   border: 1px solid rgba(111, 111, 187, 0.25);
   box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  /* Permitir interacción dentro de la tarjeta */
+  pointer-events: auto;
 }
 .cookie-modal {
   position: fixed;
   inset: 0;
-  z-index: 70;
+  z-index: 60; /* por debajo de overlays críticos como WhatsApp */
   display: grid;
   place-items: center;
   background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(4px);
   transition: opacity 200ms ease;
+  pointer-events: none; /* no bloquea otros elementos; panel maneja eventos */
+  /* Espaciado interno para evitar que el panel toque los bordes en móviles */
+  padding: 0.75rem;
 }
 .cookie-modal.hidden { display: none; opacity: 0; }
 .cookie-modal.visible { opacity: 1; }
 .cookie-modal__panel {
-  width: min(100% - 2rem, 42rem);
+  /* Ancho adaptable al viewport, evitando overflow en cualquier resolución */
+  width: min(100vw - 2rem, 44rem);
   border-radius: 0.75rem;
   background: #fff;
   border: 1px solid rgba(111,111,187,0.25);
@@ -816,6 +825,20 @@ section.hero-section {
   transform: translateY(6px);
   opacity: 0;
   transition: transform 200ms ease, opacity 200ms ease;
+  pointer-events: auto; /* habilita interacción dentro del panel */
+  /* Altura y scroll interno para mantener contenido visible */
+  /* Fallback y unidades dinámicas para móviles (barra de direcciones) */
+  max-height: calc(100vh - 1.5rem);
+  max-height: calc(100svh - 1.5rem);
+  max-height: calc(100dvh - 1.5rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  /* Evitar márgenes que resten altura útil; overlay aporta el padding */
+  margin: 0;
+  padding: 1.25rem; /* base cómoda, relativa a tipografía */
+  font-size: 0.9375rem; /* ~15px base cómoda */
 }
 .cookie-modal.visible .cookie-modal__panel { transform: translateY(0); opacity: 1; }
 
@@ -832,3 +855,38 @@ section.hero-section {
   z-index: 80;
 }
 .cookie-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Responsividad del modal */
+@media (max-width: 640px) {
+  .cookie-modal__panel {
+    width: calc(100vw - 1.5rem);
+    max-width: 96vw;
+    /* sin margen para no restar alto; el overlay ya tiene padding */
+    margin: 0;
+    padding: 1rem;
+    font-size: 0.875rem; /* ~14px en móviles */
+    /* Fallback y unidades dinámicas para garantizar visibilidad completa */
+    max-height: calc(100vh - 1.5rem);
+    max-height: calc(100svh - 1.5rem);
+    max-height: calc(100dvh - 1.5rem);
+  }
+}
+
+/* Rango tablet (641px–1023px): más espacio lateral, manteniendo proporción */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .cookie-modal__panel {
+    width: min(100vw - 3rem, 48rem);
+    max-width: 92vw;
+    padding: 1.25rem;
+    font-size: 0.9375rem;
+    max-height: calc(100vh - 2rem);
+    max-height: calc(100svh - 2rem);
+    max-height: calc(100dvh - 2rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cookie-modal__panel {
+    width: min(100% - 3rem, 44rem);
+  }
+}

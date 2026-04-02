@@ -2,7 +2,26 @@
 
 /* Altura del header como variable para compensar el hero fijo */
 :root {
-  --header-height: 84px; /* desktop base */
+  --header-height: 84px;
+  --color-brand-900: #3B3355;
+  --color-brand-800: #692A00;
+  --color-brand-700: #6F6FBB;
+  --color-brand-300: #EBB4A6;
+  --color-brand-100: #ECE2D0;
+  --color-text: #0e2431;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-danger-bg: #fef2f2;
+  --color-danger-border: #fecaca;
+  --color-info-bg: #eff6ff;
+  --color-info-border: #dbeafe;
+  --color-info-text: #1d4ed8;
+  --shadow-1: 0 10px 30px rgba(0,0,0,0.08);
+  --radius-1: 0.5rem;
+  --radius-2: 1rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
 }
 
 html {
@@ -117,7 +136,7 @@ input[type="range"].ba-range::-webkit-slider-thumb {
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background: #6f6fbb;
+  background: var(--color-brand-700);
   border: 2px solid white;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   cursor: ew-resize;
@@ -126,7 +145,7 @@ input[type="range"].ba-range::-moz-range-thumb {
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background: #6f6fbb;
+  background: var(--color-brand-700);
   border: 2px solid white;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   cursor: ew-resize;
@@ -174,10 +193,10 @@ input[type="range"].ba-range::-moz-range-thumb {
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
   border-radius: 9999px;
-  background: #6f6fbb;
+  background: var(--color-brand-700);
   color: white;
   font-size: 0.875rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-1);
 }
 
 /* Teléfono hover (efecto timbre) */
@@ -279,7 +298,7 @@ input[type="range"].ba-range::-moz-range-thumb {
   width: 2rem;
   height: 2rem;
   border: 2px solid #e5e7eb;
-  border-top: 2px solid #7c3aed;
+  border-top: 2px solid var(--color-brand-700);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
@@ -293,23 +312,23 @@ input[type="range"].ba-range::-moz-range-thumb {
   }
 }
 .map-error {
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
+  background-color: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
   border-radius: 0.5rem;
   padding: 1.5rem;
   text-align: center;
-  color: #dc2626;
+  color: var(--color-danger-600);
 }
 .map-error h3 {
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #991b1b;
+  color: var(--color-danger-700);
 }
 .map-error p {
   font-size: 0.875rem;
   margin-bottom: 1rem;
-  color: #dc2626;
+  color: var(--color-danger-600);
 }
 .map-error .error-actions {
   display: flex;
@@ -330,27 +349,27 @@ input[type="range"].ba-range::-moz-range-thumb {
   cursor: pointer;
 }
 .map-error .primary-action {
-  background-color: #dc2626;
+  background-color: var(--color-danger-600);
   color: white;
 }
 .map-error .primary-action:hover {
-  background-color: #b91c1c;
+  background-color: var(--color-danger-700);
 }
 .map-error .secondary-action {
-  background-color: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger-600);
+  border: 1px solid var(--color-danger-border);
 }
 .map-error .secondary-action:hover {
-  background-color: #fecaca;
+  background-color: var(--color-danger-border);
 }
 
 .map-validation-info {
-  background-color: #eff6ff;
-  border-top: 1px solid #dbeafe;
+  background-color: var(--color-info-bg);
+  border-top: 1px solid var(--color-info-border);
   padding: 0.75rem;
   font-size: 0.75rem;
-  color: #1d4ed8;
+  color: var(--color-info-text);
   text-align: center;
 }
 .map-validation-info.hidden {
@@ -540,6 +559,10 @@ section.hero-section {
   position: relative;
   z-index: 0; /* por debajo del header (z-50) */
 }
+section.hero-section h1 {
+  font-size: clamp(2rem, 3vw + 1rem, 3.25rem);
+  line-height: 1.1;
+}
 
 /* Media queries para dispositivos móviles */
 @media (max-width: 1023px) {
@@ -558,11 +581,7 @@ section.hero-section {
     gap: 2rem;
   }
 
-  /* Optimizar el tamaño de texto en móviles */
-  section.hero-section h1 {
-    font-size: 2.5rem;
-    line-height: 1.1;
-  }
+  /* Optimización de título manejada por clamp arriba */
 }
 
 @media (max-width: 480px) {
@@ -570,9 +589,7 @@ section.hero-section {
     --header-height: 80px; /* mantener visibilidad, evitar solapamiento */
   }
   
-  section.hero-section h1 {
-    font-size: 2rem;
-  }
+  /* Optimización de título manejada por clamp arriba */
 }
 
 /* Ajustes para tablets */
@@ -681,7 +698,7 @@ section.hero-section {
 .menu-surface {
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: saturate(140%) blur(6px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-1);
 }
 
 /* Header del menú: jerarquía visual */
@@ -699,18 +716,18 @@ section.hero-section {
   gap: 0.75rem;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
-  color: #0e2431; /* texto base acorde a marca */
+  color: var(--color-text);
   transition: background-color 160ms ease, transform 160ms ease, color 160ms ease;
 }
 .menu-list .menu-link i {
   color: inherit; /* respeta clases como text-brand-700 */
 }
 .menu-list .menu-link:hover {
-  background-color: rgba(59, 130, 246, 0.08);
+  background-color: rgba(111, 111, 187, 0.08);
   transform: translateX(2px);
 }
 .menu-list .menu-link:focus-visible {
-  outline: 2px solid rgba(59, 130, 246, 0.6);
+  outline: 2px solid var(--color-brand-700);
   outline-offset: 2px;
 }
 /* ===== Redes sociales: visibilidad y tamaños táctiles ===== */
@@ -731,7 +748,7 @@ section.hero-section {
   transform: scale(1.05);
 }
 .social-group a:focus-visible {
-  outline: 2px solid #7c3aed; /* visible focus */
+  outline: 2px solid var(--color-brand-700);
   outline-offset: 2px;
 }
 

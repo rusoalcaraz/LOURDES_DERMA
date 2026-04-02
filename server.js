@@ -135,19 +135,32 @@ t2esZ4bCprMIpamLlJOlnUPZtOjYSUUGlUtBpGY9TuMoUgWqn2DKQvEMp9VUhkY
 // Crear servidor HTTPS
 const httpsServer = https.createServer(httpsOptions, serveFile);
 
-// Iniciar servidores
-httpServer.listen(PORT_HTTP, () => {
-  console.log(
-    `🌐 Servidor HTTP ejecutándose en: http://localhost:${PORT_HTTP}`
-  );
-});
+function startServer(server, initialPort, isHttps) {
+  let port = initialPort;
+  const protocol = isHttps ? "https" : "http";
+  const label = isHttps ? "🔒 Servidor HTTPS" : "🌐 Servidor HTTP";
+  const start = () => {
+    server.once("error", (err) => {
+      if (err.code === "EADDRINUSE") {
+        console.log(`⚠️ Puerto ${port} en uso, intentando ${port + 1}...`);
+        port += 1;
+        start();
+      } else {
+        console.error(`❌ Error al iniciar ${label}: ${err.message}`);
+      }
+    });
+    server.listen(port, () => {
+      console.log(`${label} ejecutándose en: ${protocol}://localhost:${port}`);
+      if (isHttps) {
+        console.log("✅ Usando certificados SSL válidos (mkcert)");
+      }
+    });
+  };
+  start();
+}
 
-httpsServer.listen(PORT_HTTPS, () => {
-  console.log(
-    `🔒 Servidor HTTPS ejecutándose en: https://localhost:${PORT_HTTPS}`
-  );
-  console.log("✅ Usando certificados SSL válidos (mkcert)");
-});
+startServer(httpsServer, PORT_HTTPS, true);
+startServer(httpServer, PORT_HTTP, false);
 
 console.log(
   "\n📋 Instrucciones para probar el widget de Doctoralia:"
